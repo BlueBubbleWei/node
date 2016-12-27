@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>angular model 学习</title>
+	<style>
+		input.ng-invalid{
+			font-size: 26px;
+			color: green;
+			background-color: lightblue;
+		}
+	</style>
+</head>
+<body>
+	<div ng-controller="myCtrl" style="border:1px solid #000;">
+		名字：<input ng-model="name">
+		<h1>{{name}}</h1>
+	</div>
+	<div style="border:1px solid #000;min-height: 100px;">
+		<form name="myForm">
+			Email:
+			<input type="email" name="myAddress" ng-model="text">
+			<span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+			<p>Valid: {{myForm.myAddress.$valid}} (如果输入的值是合法的则为 true)。</p>
+			<p>Dirty: {{myForm.myAddress.$dirty}} (如果值改变则为 true)。</p>
+			<p>Touched: {{myForm.myAddress.$touched}} (如果通过触屏点击则为 true)。</p>
+		</form>
+	</div>
+	<div style="border:1px solid #000;min-height: 100px;">
+		<form name="YourForm">
+			<p>使用angular的css</p>
+			<input class="myname" ng-model="name" required />
+		</form>
+	</div>
+</body>
+<script src='../node_modules/.1.6.1@angular/angular.js'></script>
+<script>
+		var app=angular.module('myApp',[]);
+		app.controller('myCtrl',function($scope){
+			$scope.name="John Doe";
+		});
+</script>
+</html>
