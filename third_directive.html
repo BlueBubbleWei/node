@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>angular指令学习</title>
+</head>
+<body>
+	<!-- ng-init 每个ng-app里面只有一个 -->
+	<div ng-init="names=['Jane','Hege','Blue'];matchs=[{name:'jane',country:'Norway'},{name:'hege',country:'Sweden'}]">
+		<div style="border:1px solid #000;">
+			<h3 style="font-size:36px;">AngularJS 使用ng-repeat来循环数组</h3>
+			<ul>
+				<li ng-repeat="x in names" style="list-style:none;">
+					{{x}}
+				</li>
+			</ul>
+		</div>
+		
+		<div style="border:1px solid #000;">
+			<h3 style="font-size:36px;">AngularJS 使用ng-repeat来循环对象</h3>
+			<ul>
+				<li ng-repeat="x in matchs">
+					{{x.name +','+x.country}}
+				</li>
+			</ul>
+		</div>
+		<div style="border:1px solid #000;">
+			<h3 style="font-size:36px;">AngularJS 自定义指令</h3>
+			<p color="red">指令调用方式有4种</p>
+			<!-- 添加指令 同时可以设定默认值 注意directive的写法 new-directive《-》newDirective   -->
+
+			<p>以下两者可以不设定restrict</p>
+			<new-directive>返回值为空时的默认值</new-directive>	
+			<div new-directive></div>
+
+
+			<p>必须在restrict 为 C,否则以class的形式调用指令失效</p>
+			<div class="new-directive">以class来命名的指令没有生效</div>
+			
+
+			<p>必须在restrict 为 E,否则以注释的形式调用指令失效</p>
+			<!-- directive:new-directive -->
+
+			
+		</div>
+	</div>
+	
+</body>
+<script src='node_modules/.1.6.1@angular/angular.js'></script>
+<script>
+	var app=angular.module('myApp', []);
+	app.directive("newDirective",function(){
+		return {
+			// E 作为元素名使用
+			// A 作为属性使用
+			// C 作为类名使用
+			// M 作为注释使用
+//strict 默认值为 EA, 即可以通过元素名和属性名来调用指令。
+			restrict:'C',//添加与不添加的差异很大
+			template:"<h1>自定义指令</h1>"
+		}
+	})
+</script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>依赖注入</title>	
+	
+</head>
+<body>
+	<div ng-app="myApp" ng-controller="myCtrl">
+		名：<input type="text" ng-model="firstName"><br>
+		姓：<input type="text" ng-model="lastName"><br>
+		<br>
+		姓名：{{firstName + "    "+lastName}}
+		<!-- ng-init 应用实例 -->
+		<div  ng-init="quantity=1;cost=5;firstName='BlueBubble';lastName='Wei';person={'age':24,'sex':'female'};points=[1,2,3,4,5]">
+			<h3 style="font-size:36px;">AngularJS 数字</h3>
+			<p>总价：{{quantity*cost}}</p>
+			<p>使用ng-bind的相同实例</p>
+			<p>总价：<span ng-bind="quantity*cost"></span></p>
+			<h3 style="font-size:36px;">AngularJS 字符串</h3>
+			<p>姓名：{{firstName+'   '+lastName}}</p>
+			<h3 style="font-size:36px;">AngularJS 对象</h3>
+			<p>个人信息：{{person.age+'  '+person.sex}}</p>
+			<h3 style="font-size:36px;">AngularJS 数组</h3>
+			<p>第三个值为：<span ng-bind="points[2]"></span></p>
+		</div>
+	</div>
+</body>
+<script src='node_modules/.1.6.1@angular/angular.js'></script>
+<script>
+	var app=angular.module('myApp',[])
+	app.controller('myCtrl',function($scope){
+		$scope.firstName="John";
+		$scope.lastName="Doe";
+	})
+</script>
+</html>
