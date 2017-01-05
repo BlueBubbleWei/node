@@ -1,0 +1,67 @@
+<div class="GenTopStatistics">
+    <div><img src="../common/images/left_list.png"><p>系统使用情况</p></div>
+</div>
+
+<div class="panel panel-default systemList">
+    <!-- Default panel contents -->
+    <!--<div class="panel-heading">Panel heading</div>-->
+
+    <!-- Table -->
+    <table class="table table-striped systemGeneral">
+        <thead>
+        <tr>
+            <th></th><th>累计用户</th><th>累计装机量</th><th>日均登陆人数</th><th>单日在线最高人数</th>
+        </tr>
+        <tr>
+            <th>总计</th><th>296000</th><th>296000</th><th>啦啦啦啦</th><th>啦啦啦啦</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr><th><img src="systemPage/systemGeneral/images/arrow_down.png" class="arrow_down" ng-click="pdsctrl()" alt="">PDS总体</th><th>296000</th><th>296000</th><th>296000</th><th>296000</th></tr>
+            <tr ng-show='psd'><td>BE</td><td>11111111</td><td>11111111</td><td>11111111</td><td>11111111 <p class="enddate">2012.05.24</p></td></tr>
+            <tr ng-show="psd"><td>MC</td><td>111</td><td>11111111</td><td>11111111</td><td>11111111</td></tr>
+            <tr ng-show="psd"><td>RW</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222<p class="enddate">2012.05.24</p></td></tr>
+            <tr ng-show="psd"><td>SP</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222<p class="enddate">2012.05.24</p></td></tr>
+            <tr ng-show="psd"><td>BV</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+            <tr ng-show="psd"><td>iBAN</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+            <tr ng-show="psd"><td>BC</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+        </tbody>
+        <tbody>
+            <tr><th><img src="systemPage/systemGeneral/images/arrow_down.png" class="arrow_down" ng-click="calctrl()" /> 算量总体</th><th>296000</th><th>296000</th><th>296000</th><th>296000</th></tr>
+            <tr ng-show='cal'><td>土建</td><td>2222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+            <tr ng-show='cal'><td>钢筋</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+            <tr ng-show='cal'><td>安装</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+        </tbody>
+        <tbody>
+            <tr><th><img src="systemPage/systemGeneral/images/arrow_down.png" class="arrow_down" ng-click="otherctrl()" />其他</th><th>296000</th><th>296000</th><th>296000</th><th>296000</th></tr>
+            <tr ng-show='other'><td>班筑</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+            <tr ng-show='other'><td>班汇通</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+        </tbody>
+    </table>
+</div>
+<div class="systemTrend">
+    <div class="systemTrend-top">
+    </div>
+    <div class="system-titl">
+        <img class="titl-img" src="systemPage/systemGeneral/images/titl-img.png" alt=""><p class="titl-word">系统整体趋势</p>
+    </div>
+    <div class="systemChart">
+        <div class="chart-click">
+            <div class="click-left">
+                <!--switch class adding this one-->
+                <p class="count-number">累计用户</p>
+                <p class="count-number">累计装机量</p>
+            </div>
+            <div class="click-right">
+                <p class="select-time">全部</p>
+                <p class="select-time">近三年</p>
+                <p class="select-time">近一年</p>
+                <p class="select-time">近一季</p>
+                <p class="select-time">近一月</p>
+            </div>
+        </div>
+        <div id="trendChart" class="chart">
+
+        </div>
+    </div>
+</div>
