@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>鲁班软件业务管理系统</title>
+		<link rel="SHORTCUT ICON" href="./img/LB.ico">
+		<link rel="stylesheet" type="text/css" href="./css/login.css"/>
+	</head>
+	<body>
+		<div class='manageSystem-login'>
+			<!--登录界面logo-->
+			<div class='login-logo'><img src="../../common/images/businessLogo.png" alt="" /></div>
+			<!--登录窗口-->
+			<div class='login-window'>
+				<div class='login-window-main'>
+					<!--标题-->
+					<p >Luban BMS欢迎您登录</p>
+					<!--用户名和密码-->
+					<div class='login-userInfo'>
+						<div class="username">
+							<span><img src="./img/icon-user.png" alt="" /></span>
+							<input type="text" placeholder="用户名" id="userName"/>
+						</div>
+						<div class="username">
+							<span><img src="./img/icon-key.png" alt="" /></span>
+							<input type="password" placeholder="密码" id="passWord"/>
+						</div>
+						<div class="loginMsg">
+							<!--<p class="nameError">用户名输入错误</p>
+							<p class="passError">密码输入错误</p>-->
+							<p class='userAndPassMsg'></p>
+						</div>
+						<div class="login-system-manage">
+							<span><img src="./img/systemLogo.png" alt="" /></span>
+							<p class='screenValue'>运营管理系统2.0</p>
+							<div class="icon-trigon" style=""></div>
+							<div class="listSystem overflow">
+								
+							</div>
+						</div>
+					</div>
+					<!--登录按钮-->
+					<div class='login-btns'>
+						<div class='login-enter'><span>登</span><span>录</span></div>
+						<!--生成复选框-->
+						 <div class='rember-checkbox'>
+						 	<div class='check-box' name="false"></div>
+						 	<p>记住密码</p>
+						 </div>
+					</div>
+			
+				</div>
+			</div>
+		</div>
+		<!--地址-->
+		<div class="login-address">
+				<span>上海市杨浦区五角场淞沪路433号创智天地(西区)6号楼3楼</span>
+				<span>Email:bim@lubansoft.com</span>
+				<span>沪ICP备09024855号-19</span>
+			</div>
+		<div class="movingLine-1-1" style="background-image:url('./img/red.png');animation: line-1-1Animation 100s  cubic-bezier(0.7,0.3, 0.3, 0.7) infinite; "></div>
+		<div class="movingLine-1-2" style="background-image:url('./img/red.png'); animation: line-1-2Animation 100s  cubic-bezier(0.7,0.3, 0.3, 0.7) infinite;"></div>
+		<div class="movingLine-2-1" style="background-image:url('./img/blue.png'); animation: line-1-1Animation 100s cubic-bezier(0.2, 0.6, 0.9, 0.6) infinite;"></div>
+		<div class="movingLine-2-2" style="background-image:url('./img/blue.png'); animation: line-1-2Animation 100s cubic-bezier(0.2, 0.6, 0.9, 0.6) infinite;"></div>
+		<div class="movingLine-1-1" style="background-image:url('./img/yellow.png'); animation: line-2-1Animation 200s cubic-bezier(0.1, 0, 0.8, 1.6) infinite;"></div>
+		<div class="movingLine-1-2" style="background-image:url('./img/yellow.png'); animation: line-2-2Animation 200s cubic-bezier(0.1, 0, 0.8, 1.6) infinite;"></div>
+		<script src='../../common/libs/jquery-1.12.2.min.js'></script>
+		<script src="../../common/scripts/jquery.md5.js"></script>
+		<script src='../../common/scripts/cookie.js'></script>
+		<script src='../../common/scripts/ajax.js'></script>
+		<script src="./js/ajax.js"></script>
+		<script src="../../common/scripts/globalVar.js"></script>
+		<script src='./js/login.js'></script>
+		
+	</body>
+</html>

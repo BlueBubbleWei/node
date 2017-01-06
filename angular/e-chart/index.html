@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="echarts-all.js"></script>
+    <style>
+    #main{
+        width: 700px;
+        height: 600px;
+        background-color: lightblue;
+        margin: 0 auto; 
+    }   
+    </style>
+</head>
+<body>
+    <div id="main" ></div>
+</body>
+<script>
+     var myChart = echarts.init(document.getElementById('main'));
+    option = {
+        title: {
+            text: '折线图堆叠'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        color: ['orange', 'red','#90ff0a' ], //颜色由下至上
+        grid: {
+            left: '10%',
+            right: '4%',
+            bottom: '3%',
+            padding:'5%',
+            containLabel: true,
+            // axisLine:false,
+            textStyle: {
+                color: '#333',
+                fontSize: '14'
+            }
+        },
+        toolbox: {
+            show : false,
+            feature : {
+               
+
+            }
+        },
+        calculable : true,
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,            
+            data: ['14年09月','14年10月','14年11月','14年12月','15年01月','15年02月','15年03月','15年04月','15年05月','15年06月','15年07月','15年08月'],
+            axisLabel:{
+                 //X轴刻度配置
+                 interval:3 //0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+            }
+        },
+        yAxis: [{
+                type: 'value', 
+                scale: true, 
+                boundaryGap: [0.01, 0.01], 
+                splitArea: { show: false },
+                min:450,
+                max:1450
+        }],
+
+        series: [
+            {
+                symbol:'circle',
+                symbolSize:4,
+                name:'PSD总体',
+                type:'line',
+                itemStyle: {
+                    normal: {
+                        color: '#e09d55'
+                    }
+                }, 
+                data:[600, 670, 700,670,700,800,820,870,790,860,900,1050]
+            },
+            {
+                symbol:'circle',
+                symbolSize:4,
+                name:'算量总体',
+                type:'line',
+                 itemStyle: {
+                    normal: {
+                        color: '#aa1019'
+                    }
+                }, 
+                data:[750, 800, 850, 830, 850,870, 1040,1040,1010,1030,1200,1300]
+            },
+            {
+                symbol:'circle',
+                symbolSize:4,
+                name:'浏览器',
+                type:'line',
+                itemStyle: {
+                    normal: {
+                        color: '#2dc0e8'
+                    }
+                }, 
+                data:[700, 750, 850, 800, 850, 890,890,1000,870,1020,1050,1150]
+            },
+            
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</html>
