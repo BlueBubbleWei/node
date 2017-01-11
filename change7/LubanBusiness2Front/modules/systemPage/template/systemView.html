@@ -1,0 +1,102 @@
+<div class="system-view">
+    <div class="GenTopStatistics">
+        <div><img src="../common/images/left_list.png"><p>系统使用情况</p></div>
+        <p ng-repeat="x in __list track by $index">
+            {{x.productId}}
+        </p>
+
+    </div>
+
+    <div class="panel panel-default systemList">
+        <!-- Default panel contents -->
+        <!--<div class="panel-heading">Panel heading</div>-->
+
+        <!-- Table -->
+        <table class="table table-striped systemGeneral">
+            <thead>
+            <tr>
+                <th></th><th>累计用户</th><th>累计装机量</th><th>日均登陆人数</th><th>单日在线最高人数</th>
+            </tr>
+            <tr>
+                <th id="0_1">总计</th><th id="0_2">296000</th><th id="0_3">296000</th><th id="0_4">啦啦啦啦</th><th id="0_5">啦啦啦啦</th>
+            </tr>
+            </thead>
+            <tbody id="Tbody">
+            <tr><th ><img src="systemPage/images/arrow_down.png" class="arrow_down" ng-click="pdsctrl()" alt=""><span id="1_1">--</span></th><th id="1_2">--</th><th id="1_3">--</th><th id="1_4">296000</th><th id="1_5">296000</th></tr>
+            <tr ng-show='psd'><td id="2_1">--</td><td id="2_2">--</td><td id="2_3">--</td><td id="2_4">0</td><td ><span id="2_5">--</span><p class="enddate" id="2_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="3_1">--</td><td id="3_2">--</td><td id="3_3">--</td><td id="3_4">0</td><td ><span id="3_5">--</span><p class="enddate" id="3_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="4_1">--</td><td id="4_2">--</td><td id="4_3">--</td><td id="4_4">0</td><td ><span id="4_5">--</span><p class="enddate" id="4_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="5_1">--</td><td id="5_2">--</td><td id="5_3">--</td><td id="5_4">0</td><td ><span id="5_5">--</span><p class="enddate" id="5_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="6_1">--</td><td id="6_2">--</td><td id="6_3">--</td><td id="6_4">0</td><td ><span id="6_5">--</span><p class="enddate" id="6_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="7_1">--</td><td id="7_2">--</td><td id="7_3">--</td><td id="7_4">0</td><td ><span id="7_5">--</span><p class="enddate" id="7_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="8_1">--</td><td id="8_2">--</td><td id="8_3">--</td><td id="8_4">0</td><td ><span id="8_5">--</span><p class="enddate" id="8_6">--</p></td></tr>
+            <tr ng-show='psd'><td id="9_1">--</td><td id="9_2">--</td><td id="9_3">--</td><td id="9_4">0</td><td ><span id="9_5">--</span><p class="enddate" id="9_6">2012.05.24</p></td></tr>
+
+            <tr><th><img src="systemPage/images/arrow_down.png" class="arrow_down" ng-click="calctrl()" /><span id="10_1"></span></th><th id="10_2">296000</th><th id="10_3">296000</th><th id="10_4">296000</th><th id="10_5">296000</th></tr>
+            <tr ng-show='cal'><td id="11_1">--</td><td id="11_2">--</td><td id="11_3">--</td><td id="11_4">--</td><td ><span id="11_5">--</span><p class="enddate" id="11_6">--</p></td></tr>
+            <tr ng-show='cal'><td id="12_1">--</td><td id="12_2">--</td><td id="12_3">--</td><td id="12_4">--</td><td ><span id="12_5">--</span><p class="enddate" id="12_6">--</p></td></tr>
+            <tr ng-show='cal'><td id="13_1">--</td><td id="13_2">--</td><td id="13_3">--</td><td id="13_4">--</td><td ><span id="13_5">--</span><p class="enddate" id="13_6">--</p></td></tr>
+
+            <tr><th ><img src="systemPage/images/arrow_down.png" class="arrow_down" ng-click="otherctrl()" /><span id="14_1"></span></th><th id="14_2">296000</th><th id="14_3">296000</th><th id="14_4">296000</th><th id="14_5">296000</th></tr>
+            <tr ng-show='other'><td id="15_1">班筑</td><td id="15_2">--</td><td id="15_3">--</td><td id="15_4">--</td><td ><span id="15_5">--</span><p class="enddate" id="15_6">--</p></td></tr>
+            <tr ng-show='other'><td>班汇通</td><td>22222222</td><td>22222222</td><td>222222222222</td><td>222222222</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="systemTrend">
+        <div class="systemTrend-top">
+        </div>
+        <div class="system-titl">
+            <img class="titl-img" src="systemPage/images/titl-img.png" alt=""><p class="titl-word">系统整体趋势</p>
+        </div>
+        <div class="systemChart">
+            <div class="chart-click">
+                <click-left class="click-left">
+                    <!--switch class adding this one-->
+                    <p class="count-number switch-left-down" id="usercount">累计用户</p>
+                    <p class="count-number"  id="downloadingcount">累计装机量</p>
+                </click-left>
+                <div class="click-right">
+                    <p class="select-time">全部</p>
+                    <p class="select-time">近三年</p>
+                    <p class="select-time">近一年</p>
+                    <p class="select-time">近一季</p>
+                    <p class="select-time">近一月</p>
+                </div>
+            </div>
+           <!-- <div id="trendChart" class="chart">
+                &lt;!&ndash;图表&ndash;&gt;
+            </div>-->
+            <div id="waveChart" class="wavechart"></div>
+            <div class="chartIcon">
+                <!--<div class="leftAll ">-->
+                    <!--<p class="checkInfo "><span class="checkALL checkword">全选</span><input type="checkbox" id="checkALL"  checked="checked" class="checkALL" for="checkALL" ></p>-->
+                <!--</div>-->
+                <div class="leftCheck">
+                    <div class="clearFloat">
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="psdAll"></span><span class="checkDetailpublic checkDetailword">PSD总体</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="brower"></span><span class="checkDetailpublic checkDetailword">浏览器</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="cockpit"></span><span class="checkDetailpublic checkDetailword">驾驶舱</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="mobile"></span><span class="checkDetailpublic checkDetailword">移动应用</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="process"></span><span class="checkDetailpublic checkDetailword">进度计划</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="integrate"></span><span class="checkDetailpublic checkDetailword">集成应用</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="iBan"></span><span class="checkDetailpublic checkDetailword">iBAN</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="BC"></span><span class="checkDetailpublic checkDetailword">BC</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="calGeneral"></span><span class="checkDetailpublic checkDetailword">算量总体</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="tuJian"></span><span class="checkDetailpublic checkDetailword">土建</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="gangjin"></span><span class="checkDetailpublic checkDetailword">钢筋</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="install"></span><span class="checkDetailpublic checkDetailword">安装</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="construct"></span><span class="checkDetailpublic checkDetailword">施工</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="subordate"></span><span class="checkDetailpublic checkDetailword">下料</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="special"></span><span class="checkDetailpublic checkDetailword">专项</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="node"></span><span class="checkDetailpublic checkDetailword">节点</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="banzhu"></span><span class="checkDetailpublic checkDetailword">班筑</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="banhuitong"></span><span class="checkDetailpublic checkDetailword">班汇通</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="mobliePad"></span><span class="checkDetailpublic checkDetailword">移动应用(pad)</span></p>
+                        <p class="detailgroup"><span class="checkDetailico checkDetailpublic" id="other"></span><span class="checkDetailpublic checkDetailword">其他</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
