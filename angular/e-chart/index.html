@@ -23,7 +23,15 @@
             text: '折线图堆叠'
         },
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            axisPointer:{
+                type: 'line',
+                lineStyle: {
+                    color: '#aa1019',
+                    width: 2,
+                    type: 'solid'
+                }
+            }
         },
         color: ['orange', 'red','#90ff0a' ], //颜色由下至上
         grid: {
@@ -50,10 +58,10 @@
             type: 'category',
             boundaryGap: false,            
             data: ['14年09月','14年10月','14年11月','14年12月','15年01月','15年02月','15年03月','15年04月','15年05月','15年06月','15年07月','15年08月'],
-            axisLabel:{
+            /*axisLabel:{
                  //X轴刻度配置
-                 interval:3 //0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
-            }
+                 // interval:12 //0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+            }*/
         },
         yAxis: [{
                 type: 'value', 
