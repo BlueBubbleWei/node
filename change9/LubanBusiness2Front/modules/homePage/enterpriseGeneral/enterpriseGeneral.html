@@ -1,0 +1,29 @@
+
+<div class="GenTopStatistics">
+	<div ng-repeat="item in statisticsItem">
+		<div class="itemLine1">
+			<div class="itemLine1_1">{{item.title}}</div>
+		    <div class="itemLine1_2">{{item.time}}</div>
+		</div>
+		<div class="itemLine2">{{item.value}}</div>
+	</div>
+</div>
+<div class="layoutplan">
+	<div>
+		<div id="layoutMap"></div>
+		<div class="layoutMapBelow"><span>企业数量（由多到少）</span><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+	</div>
+	<div>
+		<div class="genMapRightTop">
+			<div  name= "genAreaSelect"  ng-click="areaState=0">省份</div>
+			<div  name= "genAreaSelect"  ng-click="areaState=1">区域</div>
+			<div  name= "genAreaSelect"  ng-click="areaState=2">城市</div>
+		</div>
+		<div id="areaRank"></div>
+	</div>
+</div>
+<div class="layoutSituationArea">
+	<div></div>
+	<div id="layoutSituation"></div>
+	<div id="LCTimeBucket"  data-default-value="" data-placeholder="最近一年"></div>
+</div>

@@ -1,0 +1,67 @@
+<script src="../common/libs/echarts.js"></script>
+<!--问题分析-->
+<div class="question-analysis">
+    <div class="analysis-main">
+        <!--图形展示-->
+        <div class="question-shapeShow">
+            <!--analysis-Nav-->
+            <div class="analysis-Nav">
+                <ul class="analysis-Nav-list overflow"></ul>
+            </div>
+            <!--analysis-canvas-->
+            <div class="analysis-canvas">
+                <div class="analysis-shape" id="analysissShape"></div>
+            </div>
+        </div>
+        <!--analysis-table-->
+        <div class="analysis-table">
+            <!--analysis-tableIf-->
+            <div class="analysis-tableIf overflow">
+                <!--<div id="quesAllTime"  data-default-value="" data-placeholder="最近一年"></div>-->
+                <div class="analysis-inputs">
+                    <div id="quesAllTime" ></div>
+                    <div id="quesAllType" ><p>&nbsp;&nbsp;全部问题类型</p><b class="triangle"></b></div>
+                    <div id="quesAllDeploy" >
+                        <p>&nbsp;&nbsp;全部部署类型</p>
+                        <b class="triangle"></b>
+                        <div class="anlaysis-inputWap">
+                            <p>&nbsp;&nbsp;全部部署类型</p>
+                            <p>&nbsp;&nbsp;企业部署</p>
+                            <p>&nbsp;&nbsp;云部署</p>
+                        </div>
+                    </div>
+                    <div id="quesAllVersition" ><p>&nbsp;&nbsp;全部版本</p><b class="triangle"></b></div>
+                </div>
+                <div class="analysis-btn">
+                    <input type="button" class="analysis-filter" value="筛选"/>
+                    <input type="button" value="取消筛选" ng-if="cancelFilter"/>
+                </div>
+            </div>
+            <table class="fixed-table" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                <tr>
+                    <th>问题类型</th>
+                    <th>备注</th>
+                    <th>应用版本</th>
+                    <th>提交时间</th>
+                </tr>
+                </thead>
+            </table>
+            <div class="content-table">
+                <table border="0" cellspacing="0" cellpadding="0" >
+                    <tbody style="height:424px;overflow:auto">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagingFather" style="height:100px;">
+                <div class="pagingDescription">
+                    <div >当前第&nbsp;{{pageStart}}&nbsp;页&nbsp;共&nbsp;{{EntListCount}}&nbsp;条</div>
+                    <div ><span>每页显示&nbsp;&nbsp;</span><div id="pageSizeSelect"  data-default-value="150" data-placeholder=""></div><span>&nbsp;&nbsp;条</span></div>
+                </div>
+                <div  id="paging">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
