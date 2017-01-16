@@ -14,13 +14,27 @@
 			<p>姓名为 <span ng-bind="firstName"></span></p>
 		</div>
 	</div> -->
-	<div data-ng-app="" data-ng-init="firstName='green'">
+	<div dataapp="myapp" data-ng-init="firstName='green'" id="main" ng-controller="appCtrl">
 		<p>
 			姓名为<span data-ng-bind="firstName"></span>
 		</p>
 		<p>{{ 5+6}}</p>
 		<p>{{5*6}}</p>
+		<p>rtfgrtoghjortihiji</p>
 	</div>
 	
 </body>
+<script>
+var str=[{"productId":12,"data":[{"date":1438790400000,"inc":4},{"date":1438876800000,"inc":18},{"date":1439136000000,"inc":7},{"date":1439222400000,"inc":1},{"date":1439308800000,"inc":3}]}];
+console.log(str[0].data)
+/*myapp.controller('appCtrl',function($scope,$compile){
+	var str="<div ng-click='psd'><p>rtfgrtoghjortihiji</p></div>";
+	psd=function(){
+		alert(1)
+	}
+	angular.angular.element(document.getElementById('main')).append($compile(str)($scope));
+})
+	*/
+	
+</script>
 </html>

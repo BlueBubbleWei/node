@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>鲁班业务管理系统</title>
+    <link rel="SHORTCUT ICON" href="./LoginPage/img/LB.ico">
+    <script src="../common/libs/compatibility.js"></script>
+    <link rel="stylesheet" href="../common/styles/homeMaster.css" type="text/css"/>
+    <link rel="stylesheet" href="../common/styles/plugIn.css" type="text/css"/>
+    <link rel="stylesheet" href="../common/styles/question-analysis.css">
+    <link rel="stylesheet" href="../common/styles/systemView.css" type="text/css"/>
+    <script src="../common/scripts/globalVar.js"></script>
+    <script src="../common/libs/echarts-all.js"></script>
+    <script src="../common/libs/echarts.js"></script>
+    <script src="../common/libs/jquery-1.12.2.min.js"></script>
+    <script src="../common/libs/angularJS.js"></script>
+    <script src="../common/libs/angular-ui-router.min.js"></script>
+    <script src="../common/libs/prefixfree.min.js"></script>
+    <script src="../common/scripts/cookie.js"></script>
+    <script src="../common/scripts/compatibility.js"></script>
+    <script src="../common/scripts/ajax.js"></script>  
+    <script src="../common/scripts/plugIn.js"></script>
+    <script src="../common/scripts/proCityJson.js"></script>
+    <script src="../common/scripts/velocity.js"></script>
+    <script src="../common/scripts/Toast.js"></script>
+    <script src="../common/scripts/pagination.js"></script>
+    <script src="../common/scripts/model-plug.js"></script>
+</head>
+<body ng-app="LuBanBusinessFront" ng-controller="businessController">
+<div class="navigationTop">
+    <div ng-click="topState=0">
+        <div class="systemName">
+            <div></div>
+        </div>
+    </div>
+    <div name="naviTopDiv" ng-click="topState=0">
+        <div>
+            <span class="navi_2_text">首页</span>
+        </div>
+    </div>
+    <div name="naviTopDiv" ng-click="topState=1">
+        <div>
+            <span class="navi_2_text">客户端</span>
+        </div>
+    </div>
+    <div name="naviTopDiv" ng-click="topState=2">
+        <div>
+            <span class="navi_2_text">管理</span>
+        </div>
+    </div>
+    <div when-hover hover="hover">
+        <div>
+            <div class="arrow-outer"> <div class="arrow"></div></div>
+            <div class="userName">{{userName?userName:'';}}</div>
+        </div>
+        <div class="userOperation" ng-show="hover">
+            <div ng-click="changePSW(nameCookie)"><img src="../common/images/Unlock-Icon.png" /><div>修改密码</div></div>
+            <div ng-click="linkLogin()"><img src="../common/images/Turn-Off-Icon.png"/><div>退出登录</div></div>
+        </div>
+    </div>
+</div>
+<div class="belowNavi">
+    <div class="navigationLeft">
+       <!--  <div ng-repeat='item in paramList track by $index'>{{item.pMenu.name}}</div>
+        <ul ng-repeat='sub in item.subMenu track by $index'>sub.name<li>{{paramList[i].subMenu[j].name}}</li></ul> -->
+    </div>
+    <div class="contentW content" id="contentPage"><div ui-view></div></div>
+    <div class="clearFloat"></div>
+</div>
+</body>
+<script src="../common/scripts/homeMaster.js"></script>
+<script src="../modules/systemPage/scripts/systemView.ctrl.js"></script>
+<script src="../modules/systemPage/scripts/funAnalysis.ctrl.js"></script>
+<script src="../modules/systemPage/scripts/questionAnalysis.ctrl.js"></script>
+<script src="../modules/systemPage/scripts/userAnalysis.ctrl.js"></script>
+
+<script src="../common/scripts/commonService.js"></script>
+</html>
