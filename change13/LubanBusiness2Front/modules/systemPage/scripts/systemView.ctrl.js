@@ -23,7 +23,9 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
     $scope.catalogy=[];
     $scope.averageList=[];
     $scope.countInstalled=[];
-    $scope.countcustomers=[];
+    // $scope.countcustomers=[];
+    var userlist,downloadslist,flag=1;//1是用户
+
     /*显示隐藏*/
     $scope.pdsctrl = function(){
         $scope.psd = !$scope.psd;
@@ -33,17 +35,6 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
     };
     $scope.otherctrl=function () {
         $scope.other = !$scope.other;
-    };
-    $scope.switchTypeUser=function () {
-        angular.element('#usercount').addClass("switch-left-down");
-        angular.element('#downloadingcount').removeClass("switch-left-down");
-        angular.element('#downloadingcount').addClass('switch-left-up');
-
-    };
-    $scope.switchTypeloading=function () {
-        angular.element('#downloadingcount').addClass("switch-left-down");
-        angular.element('#usercount').removeClass("switch-left-down");
-        angular.element('#usercount').addClass('switch-left-up');
     };
     function changeDate(yestody) {
         // 时间为前一天的0:0:0的unix timestamp
@@ -137,8 +128,8 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                 commonService.countuser().then(function(res) {
                     //累计访问人数
                     if(res.data.length!=0){
-                        $scope.usernum=res.data;
-                        $scope.countcustomers=res.data;
+                        $scope.usernum=res.data;/*
+                        $scope.countcustomers=res.data;*/
                         $scope.usernum=sortId($scope.usernum);
                     }
                     commonService.producturl().then(function(res){
@@ -338,10 +329,10 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         $scope.calsum=countotal( $scope.calTotal);
                         $scope.othersum=countotal( $scope.otherTotal);
                         $scope.allTotal=addtotal($scope.psdsum,$scope.calsum, $scope.othersum);
-                        var html1=" <tr><th >总计</th><th>"+$scope.allTotal.usersum+"</th><th >"+$scope.allTotal.downloadsum+"</th><th>"+$scope.allTotal.avergesum+"</th><th>"+$scope.allTotal.maxsum+"</th></tr>"
+                        var html1=" <tr><th >总计</th><th>"+$scope.allTotal.usersum+"</th><th >"+$scope.allTotal.downloadsum+"</th><th></th><th></th></tr>";
                         angular.element(document.getElementById('addthead')).append(html1);
                         var html2= "<tr ng-init='psd=true' ng-click='psd=!psd' id='psd'><th ><img src='systemPage/images/arrow_down.png' class='arrow_down'><span>"+$scope.psdsum.groupName+
-                        "</span></th><th >"+$scope.psdsum.usersum+"</th><th >"+$scope.psdsum.downloadsum+"</th><th>"+$scope.psdsum.avergesum+"</th><th >"+$scope.psdsum.maxsum+"</th></tr>";
+                        "</span></th><th >"+$scope.psdsum.usersum+"</th><th >"+$scope.psdsum.downloadsum+"</th><th>"+$scope.psdsum.avergesum+"</th><th ></th></tr>";
                         // angular.element(document.getElementById('addtbody')).append(html2);
 
                         for(var i=0;i<$scope.psdTotal.length;i++){
@@ -350,7 +341,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         }
                         // angular.element(document.getElementById('addtbody')).append(html2);
                         html2+= "<tr ng-init='cal=true' ng-click='cal=!cal'><th ><img src='systemPage/images/arrow_down.png' class='arrow_down'><span>"+$scope.calsum.groupName+
-                            "</span></th><th >"+$scope.calsum.usersum+"</th><th >"+$scope.calsum.downloadsum+"</th><th>"+$scope.calsum.avergesum+"</th><th >"+$scope.calsum.maxsum+"</th></tr>";
+                            "</span></th><th >"+$scope.calsum.usersum+"</th><th >"+$scope.calsum.downloadsum+"</th><th>"+$scope.calsum.avergesum+"</th><th ></th></tr>";
                         for(var i=0;i<$scope.calTotal.length;i++){
                             html2+="<tr ng-show='cal'><td>"+$scope.calTotal[i].productName+"</td><td>"+$scope.calTotal[i].user+"</td><td>"+$scope.calTotal[i].downloads+"</td><td>"
                                 +$scope.calTotal[i].average+"</td><td><span>"+$scope.calTotal[i].max+"</span><p class='enddate'>"+$scope.calTotal[i].date+"</p></td></tr>"
@@ -358,7 +349,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
 
                         // angular.element(document.getElementById('addtbody')).append(html2);
                         html2+= "<tr ng-init='other=true' ng-click='other=!other'><th ><img src='systemPage/images/arrow_down.png' class='arrow_down'><span>"+$scope.othersum.groupName+
-                            "</span></th><th >"+$scope.othersum.usersum+"</th><th >"+$scope.othersum.downloadsum+"</th><th>"+$scope.othersum.avergesum+"</th><th >"+$scope.othersum.maxsum+"</th></tr>";
+                            "</span></th><th >"+$scope.othersum.usersum+"</th><th >"+$scope.othersum.downloadsum+"</th><th>"+$scope.othersum.avergesum+"</th><th ></th></tr>";
 
                         for(var i=0;i<$scope.otherTotal.length;i++){
                             html2+="<tr ng-show='other'><td>"+$scope.otherTotal[i].productName+"</td><td>"+$scope.otherTotal[i].user+"</td><td>"+$scope.otherTotal[i].downloads+"</td><td>"
@@ -367,7 +358,70 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         var template=angular.element(html2);
                         var templateHtml = $compile(template)($scope);
                         angular.element(document.getElementById('addtbody')).append(templateHtml);
+                        var html3="  <div class='clearFloat'><div class='pdsIcon'>";
+                        for(var i=0;i<$scope.psdTotal.length;i++){
+                            if(i==0){
+                                html3+= "<p class='detailgroup'><span class='checkDetailico checkDetailpublic" +
+                                    " grayColor' id='psdAll' ></span><span class='checkDetailpublic checkDetailword Type-tit'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==1){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='brower' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==2){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='cockpit' ng-click='cockpit("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==3){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='mobile' ng-click='mobile("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==4){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='mobliePad' ng-click='mobliePad("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==5){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='process' ng-click='process("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==6){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='integrate' ng-click='intergrate("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==7){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='iBan' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==8){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='iBan' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==9){
+                            html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='iBan' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }
+                        }
+                        html3+="  </div><div class='pdsIcon'>";
 
+                        for(var i=0;i<$scope.calTotal.length;i++){
+                            if(i==0){
+                                html3+= "<p class='detailgroup'><span class='checkDetailico checkDetailpublic" +
+                                    " grayColor' id='calGeneral' ></span><span class='checkDetailpublic checkDetailword Type-tit'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==1){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='tuJian' ng-click='tuJian("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==2){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='gangjin' ng-click='gangjin("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==3){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='install' ng-click='install("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==4){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='construct' ng-click='construct("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==5){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='subordate' ng-click='subordate("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==6){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='special' ng-click='special("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==7){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='node' ng-click='node("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }
+                        }
+                        html3+="  </div><div class='pdsIcon'>";
+                        for(var i=0;i<$scope.otherTotal.length;i++){
+                            if(i==0){
+                                html3+= "<p class='detailgroup'><span class='checkDetailico checkDetailpublic" +
+                                    " grayColor' id='others' ></span><span class='checkDetailpublic checkDetailword Type-tit'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==1){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='banzhu' ng-click='banzhu("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }else if(i==2){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='banhuitong' ng-click='banhuitong("+$scope.calTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.calTotal[i].productName+"</span></p>";
+                            }
+                        }
+                        html3+="</div>";
+
+                      /*  var template=angular.element(html3);
+                        var templateHtml = $compile(template)($scope);
+                        angular.element(document.getElementById('addtbody')).append(templateHtml);
+*/
                         function change2Stdtime(date) {
                             var date = new Date(date);
                             Y = date.getFullYear() + '/';
@@ -430,24 +484,24 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             }
                         }
                         //加载图表
-                        chang2Ctime(downloadslist);
-                        loadChart(downloadslist);
                         chang2Ctime(userlist);
                         loadChart(userlist);
                         //随着时间改变数据
-                        //
-                        function changData(date) {
+                        function changData(date,arr) {
                             var newData=[];
-                            for(var i=0;i< downloadslist.length;i++){
+                            for(var i=0;i< arr.length;i++){
                                 var collectData=[];
-                                for(var j=0;j<downloadslist[i].length-1;j++){
-                                    var Comdate=Date.parse(downloadslist[i][j].date);
+                                for(var j=0;j<arr[i].length-1;j++){
+                                    var Comdate=arr[i][j].date;
+                                    if(Number != typeof (Comdate)){
+                                        Comdate=Date.parse(arr[i][j].date);
+                                    }
                                     if(Comdate>=date){
-                                        var gogalTime=change2Stdtime(downloadslist[i][j].date);
-                                        collectData.push({date: gogalTime,countDownloads:downloadslist[i][j].countDownloads});
+                                        var gogalTime=change2Stdtime(arr[i][j].date);
+                                        collectData.push({date: gogalTime,countDownloads:arr[i][j].countDownloads});
                                     }
                                 }
-                                collectData.push({productId:downloadslist[i][downloadslist[i].length-1].productId});
+                                collectData.push({productId:arr[i][arr[i].length-1].productId});
                                 newData.push(collectData);
                             }
                            return newData;
@@ -457,110 +511,179 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         $scope.month=function() {
                             date=changeMonth(today);
                             date=Date.parse(date);
-                            result=changData(date);
-                            console.log(result)
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
+                            console.log(result);
                             loadChart(result);
                         };
                         //近一季
                         $scope.season=function() {
                             date=changeSeason(today);
                             date=Date.parse(date);
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
                             loadChart(result);
                         };
                         //近一年
                         $scope.year=function() {
                             date=changeYear(today);
                             date=Date.parse(date);
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
                             loadChart(result);
                         };
                         //近三年
                         $scope.Th3Years=function() {
                             date=change3Years(today);
                             date=Date.parse(date);
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
+                            console.log(result);
                             loadChart(result);
                         };
                         //全部
                         $scope.all=function() {
                             date=1262275200000;//2010/01/01
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
                             loadChart(result);
+                        };
+                        $("#usercount").click(function(){
+                            flag=1;
+                            $(this).addClass('switch-left-down').removeClass('switch-left-up');
+                            $(this).siblings().removeClass('switch-left-down').addClass('switch-left-up');
+                            loadChart(userlist);
+                        });
+                        $("#downloadingcount").click(function(){//切换用户和装机量
+                            flag=0;
+                            $(this).addClass('switch-left-down').removeClass('switch-left-up');
+                            $(this).siblings().removeClass('switch-left-down').addClass('switch-left-up');
+                            chang2Ctime(downloadslist);
+                            loadChart(downloadslist);
+                        });
+                        //另一种方式给所有的Icon添加属性，然后匹配productId
+                        $scope.broswer=function () {//浏览器
                         };
                         function loadChart(data) {
                             var endDate = [];
-                            var data1=[];
-                            var data2=[];
-                            var data3=[];
-                            var data4=[];
-                            var data5=[];
+                            var unitData=[];
+                            var Color=[];
+                            var SingleData=[];
                             var name=[];
                             for(var m=0;m<data[0].length-1;m++){//时间坐标轴
-                                endDate.push(data[0][m].date)
+                                endDate.push(data[0][m].date);
                             }
-                            console.log(endDate+'endDate')
-                            for(var n=0;n<5;n++){
-                                for(var m=0;m<data[n].length-1;m++) {//数据
-                                    if (n == 0) {
-                                        data1.push(data[n][m].countDownloads);
-                                        if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
-                                        }
-                                    } else if (n == 1) {
-                                        data2.push(data[n][m].countDownloads);
-                                        if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
-                                        }
-                                    } else if (n == 2) {
-                                        data3.push(data[n][m].countDownloads);
-                                        if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
-                                        }
-                                    } else if (n == 3) {
-                                        data4.push(data[n][m].countDownloads);
-                                        if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
-                                        }
-                                    } else if (n == 4) {
-                                        data5.push(data[n][m].countDownloads);
-                                        if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
-                                        }
+                            for(var i=0;i<data.length;i++){
+                                SingleData=[];
+                                for(var j=0;j<data[i].length;j++){
+                                    //因为最后一条加的productId,只过滤需要的数据
+                                    if(j<data[i].length-1){
+                                        SingleData.push(data[i][j].countDownloads);
+                                    }else{
+                                        name.push(data[i][j]);
                                     }
                                 }
+                                unitData.push(SingleData);
                             }
                             for(var n=0;n<name.length;n++){
                                 if(name[n].productId==12){
                                     name[n].productName="浏览器";
+                                    Color.push({'color':"#5995ed"});
                                 }else  if(name[n].productId==11){
                                     name[n].productName="驾驶舱";
+                                    Color.push({'color':"#88929a"});
                                 }else if(name[n].productId==29){
                                     name[n].productName="集成应用";
+                                    Color.push({'color':"#8c9cff"});
                                 }else if(name[n].productId==23){
                                     name[n].productName="进度计划";
+                                    Color.push({'color':"#8d59ed"});
                                 }else if(name[n].productId==27){
                                     name[n].productName="移动应用";
+                                    Color.push({'color':"#d05c5b"});
                                 }else if(name[n].productId==13){
                                     name[n].productName="iBan";
+                                    Color.push({'color':"#65d4fe"});
                                 }else if(name[n].productId==33){
                                     name[n].productName="协作";
+                                    Color.push({'color':"#80d3b7"});
                                 }else if(name[n].productId==28){
                                     name[n].productName="移动应用pad";
+                                    Color.push({'color':"#7159ED"});
                                 }else if(name[n].productId==3){
                                     name[n].productName="土建";
+                                    Color.push({'color':"#a18110"});
                                 }else if(name[n].productId==2){
                                     name[n].productName="钢筋";
+                                    Color.push({'color':"#c03f18"});
                                 }else if(name[n].productId==5){
                                     name[n].productName="安装";
+                                    Color.push({'color':"#9bd1e7"});
                                 }else if(name[n].productId==30){
                                     name[n].productName="班筑";
+                                    Color.push({'color':"#013fa4"});
+                                }else if(name[n].productId==30){
+                                    name[n].productName="班汇通";
+                                 Color.push({color:"#f3cd67"});
                                 }
+                            }
+                            var nameIconlist=[];
+                            var colorlist=[];
+                            var namelist=[];
+                            var initSelect="initSelect={";
+                            for(var i=0;i<name.length;i++){
+                                /*option.color=colorlist;
+                                option.legend.data=name[i].productName;
+                                var temp=option.series[i];
+                                temp.itemStyle.normal.color=Color[i].color;
+                                temp.data=unitData[i];*/
+                                namelist.push(name[i].productName);
+                                if(i%9!=0){
+                                    nameIconlist.push({name:name[i].productName,icon:'roundRect'});
+                                }else{
+                                    if(i!=0){
+                                        nameIconlist.push('');
+                                    }
+                                    nameIconlist.push({name:name[i].productName,icon:'roundRect'});
+                                }
+                                colorlist.push(Color[i].color);
+                                if(i==name.length-1){
+                                    initSelect =initSelect+"'"+name[i].productName+"':false}"
+                                }else{
+                                    initSelect =initSelect+"'"+name[i].productName+"':false,"
+                                }
+                            }
+                            eval(initSelect);
+                            for(var i=0;i<name.length;i++) {
+                                namelist[i]=JSON.stringify(namelist[i]);
+                                namelist[i]=JSON.parse(namelist[i])
                             }
                             /*画图2*/
                             var waveChart = echarts.init(document.getElementById('waveChart'));
                             date=endDate;
-                            option= {
+                            var option= {
+                                color:colorlist,
+                                legend: {
+                                    selected:initSelect,
+                                    itemWidth:30,
+                                    bottom:'0',
+                                    data:nameIconlist
+                                },
                                 tooltip: {
                                     trigger: 'axis',
                                     axisPointer:{
@@ -576,9 +699,9 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     }
                                 },
                                 grid: {
-                                    left: '0%',
-                                    right: '4%',
-                                    bottom: '20%',
+                                    left: '5%',
+                                    right: '5%',
+                                    bottom: '30%',
                                     containLabel: true,
                                     textStyle: {
                                         color: '#333',
@@ -626,26 +749,15 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     min:0,
                                     max:200
                                 },
-                                dataZoom: [{
-                                    type: 'inside',
-                                    start: 0,
-                                    end: 16
-                                }, {
-                                    start: 0,
-                                    end: 16,
-                                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                    handleSize: '80%',
-                                    handleStyle: {
-                                        color: '#fff',
-                                        shadowBlur: 1,
-                                        shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                        shadowOffsetX: 2,
-                                        shadowOffsetY: 2
-                                    }
-                                }],
+                                dataZoom : {
+                                    show : true,
+                                    start : 0,
+                                    end : 50,
+                                    y:400
+                                },
                                 series: [
                                     {//PDS
-                                        name:name[0].productName,
+                                        name:namelist[0],
                                         type:'line',
                                         smooth:true,
                                         symbol: 'circle',
@@ -653,7 +765,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: 'rgb(255, 70, 131)'
+                                                color:colorlist[0]
                                             }
                                         },
                                         areaStyle: {
@@ -667,10 +779,10 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                                 }])
                                             }
                                         },
-                                        data: data1
+                                        data: unitData[0]
                                     },
                                     {
-                                        name:name[2].productName,
+                                        name:namelist[1],
                                         type:'line',
                                         symbol: 'circle',
                                         symbolSize:8,
@@ -678,7 +790,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: 'rgb(0, 0, 0)'
+                                                color:colorlist[1]
                                             }
                                         },
                                         areaStyle: {
@@ -692,10 +804,10 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                                 }])
                                             }
                                         },
-                                        data: data2
+                                        data: unitData[1]
                                     },
                                     {
-                                        name:name[2].productName,
+                                        name:namelist[2],
                                         type:'line',
                                         smooth:true,
                                         symbol: 'circle',
@@ -703,7 +815,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: '#989898'
+                                                color:colorlist[2]
                                             }
                                         },
                                         areaStyle: {
@@ -717,10 +829,10 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                                 }])
                                             }
                                         },
-                                        data: data3
+                                        data:unitData[2]
                                     },
                                     {
-                                        name:name[3].productName,
+                                        name:namelist[3],
                                         type:'line',
                                         smooth:true,
                                         symbol: 'circle',
@@ -728,7 +840,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: '#c03f18'
+                                                color:colorlist[3]
                                             }
                                         },
                                         areaStyle: {
@@ -742,10 +854,10 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                                 }])
                                             }
                                         },
-                                        data: data4
+                                        data: unitData[3]
                                     },
                                     {
-                                        name:name[4].productName,
+                                        name:namelist[4],
                                         type:'line',
                                         smooth:true,
                                         symbol: 'circle',
@@ -753,7 +865,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: '#88929a'
+                                                color:colorlist[4]
                                             }
                                         },
                                         areaStyle: {
@@ -767,11 +879,204 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                                 }])
                                             }
                                         },
-                                        data: data5
+                                        data: unitData[4]
                                     },
+                                    {
+                                        name:namelist[5],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[5]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[5]
+                                    },
+                                    {
+                                        name:namelist[6],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[6]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[6]
+                                    },
+                                    {
+                                        name:namelist[7],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[7]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[7]
+                                    },
+                                    {
+                                        name:namelist[8],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[8]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[8]
+                                    },
+                                    {
+                                        name:namelist[9],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[9]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[9]
+                                    },
+                                    {
+                                        name:namelist[10],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[10]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[10]
+                                    },
+                                    {
+                                        name:namelist[11],
+                                        type:'line',
+                                        smooth:true,
+                                        symbol: 'circle',
+                                        symbolSize:8,
+                                        sampling: 'average',
+                                        itemStyle: {
+                                            normal: {
+                                                color:colorlist[11]
+                                            }
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(255,255,255)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(255, 255, 255)'
+                                                }])
+                                            }
+                                        },
+                                        data: unitData[11]
+                                    }
                                 ],
                             };
                             waveChart.setOption(option);
+                            waveChart.on('legendselectchanged', function (params) {
+                                debugger;
+                                var trueCount=0;
+                                for(var i=0 ;i<name.length;i++){
+                                    if(params.selected[name[i].productName]){
+                                        trueCount++;
+                                    }
+                                    if(trueCount==6){
+                                        debugger;
+                                        var thisname = params.name;
+                                        option.legend={'iBan':false};
+                                        waveChart.setOption(option);
+                                        alert("数量超过5条");
+                                        return;
+                                        break;
+                                    }
+                                }
+                            });
                         }
                     })
                 });

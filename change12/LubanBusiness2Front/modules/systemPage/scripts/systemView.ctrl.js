@@ -23,7 +23,9 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
     $scope.catalogy=[];
     $scope.averageList=[];
     $scope.countInstalled=[];
-    $scope.countcustomers=[];
+    // $scope.countcustomers=[];
+    var userlist,downloadslist,flag=1;//1是用户
+
     /*显示隐藏*/
     $scope.pdsctrl = function(){
         $scope.psd = !$scope.psd;
@@ -33,17 +35,6 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
     };
     $scope.otherctrl=function () {
         $scope.other = !$scope.other;
-    };
-    $scope.switchTypeUser=function () {
-        angular.element('#usercount').addClass("switch-left-down");
-        angular.element('#downloadingcount').removeClass("switch-left-down");
-        angular.element('#downloadingcount').addClass('switch-left-up');
-
-    };
-    $scope.switchTypeloading=function () {
-        angular.element('#downloadingcount').addClass("switch-left-down");
-        angular.element('#usercount').removeClass("switch-left-down");
-        angular.element('#usercount').addClass('switch-left-up');
     };
     function changeDate(yestody) {
         // 时间为前一天的0:0:0的unix timestamp
@@ -137,8 +128,8 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                 commonService.countuser().then(function(res) {
                     //累计访问人数
                     if(res.data.length!=0){
-                        $scope.usernum=res.data;
-                        $scope.countcustomers=res.data;
+                        $scope.usernum=res.data;/*
+                        $scope.countcustomers=res.data;*/
                         $scope.usernum=sortId($scope.usernum);
                     }
                     commonService.producturl().then(function(res){
@@ -338,10 +329,10 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         $scope.calsum=countotal( $scope.calTotal);
                         $scope.othersum=countotal( $scope.otherTotal);
                         $scope.allTotal=addtotal($scope.psdsum,$scope.calsum, $scope.othersum);
-                        var html1=" <tr><th >总计</th><th>"+$scope.allTotal.usersum+"</th><th >"+$scope.allTotal.downloadsum+"</th><th>"+$scope.allTotal.avergesum+"</th><th>"+$scope.allTotal.maxsum+"</th></tr>"
+                        var html1=" <tr><th >总计</th><th>"+$scope.allTotal.usersum+"</th><th >"+$scope.allTotal.downloadsum+"</th><th></th><th></th></tr>"
                         angular.element(document.getElementById('addthead')).append(html1);
                         var html2= "<tr ng-init='psd=true' ng-click='psd=!psd' id='psd'><th ><img src='systemPage/images/arrow_down.png' class='arrow_down'><span>"+$scope.psdsum.groupName+
-                        "</span></th><th >"+$scope.psdsum.usersum+"</th><th >"+$scope.psdsum.downloadsum+"</th><th>"+$scope.psdsum.avergesum+"</th><th >"+$scope.psdsum.maxsum+"</th></tr>";
+                        "</span></th><th >"+$scope.psdsum.usersum+"</th><th >"+$scope.psdsum.downloadsum+"</th><th>"+$scope.psdsum.avergesum+"</th><th ></th></tr>";
                         // angular.element(document.getElementById('addtbody')).append(html2);
 
                         for(var i=0;i<$scope.psdTotal.length;i++){
@@ -350,7 +341,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         }
                         // angular.element(document.getElementById('addtbody')).append(html2);
                         html2+= "<tr ng-init='cal=true' ng-click='cal=!cal'><th ><img src='systemPage/images/arrow_down.png' class='arrow_down'><span>"+$scope.calsum.groupName+
-                            "</span></th><th >"+$scope.calsum.usersum+"</th><th >"+$scope.calsum.downloadsum+"</th><th>"+$scope.calsum.avergesum+"</th><th >"+$scope.calsum.maxsum+"</th></tr>";
+                            "</span></th><th >"+$scope.calsum.usersum+"</th><th >"+$scope.calsum.downloadsum+"</th><th>"+$scope.calsum.avergesum+"</th><th ></th></tr>";
                         for(var i=0;i<$scope.calTotal.length;i++){
                             html2+="<tr ng-show='cal'><td>"+$scope.calTotal[i].productName+"</td><td>"+$scope.calTotal[i].user+"</td><td>"+$scope.calTotal[i].downloads+"</td><td>"
                                 +$scope.calTotal[i].average+"</td><td><span>"+$scope.calTotal[i].max+"</span><p class='enddate'>"+$scope.calTotal[i].date+"</p></td></tr>"
@@ -358,7 +349,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
 
                         // angular.element(document.getElementById('addtbody')).append(html2);
                         html2+= "<tr ng-init='other=true' ng-click='other=!other'><th ><img src='systemPage/images/arrow_down.png' class='arrow_down'><span>"+$scope.othersum.groupName+
-                            "</span></th><th >"+$scope.othersum.usersum+"</th><th >"+$scope.othersum.downloadsum+"</th><th>"+$scope.othersum.avergesum+"</th><th >"+$scope.othersum.maxsum+"</th></tr>";
+                            "</span></th><th >"+$scope.othersum.usersum+"</th><th >"+$scope.othersum.downloadsum+"</th><th>"+$scope.othersum.avergesum+"</th><th ></th></tr>";
 
                         for(var i=0;i<$scope.otherTotal.length;i++){
                             html2+="<tr ng-show='other'><td>"+$scope.otherTotal[i].productName+"</td><td>"+$scope.otherTotal[i].user+"</td><td>"+$scope.otherTotal[i].downloads+"</td><td>"
@@ -367,6 +358,31 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         var template=angular.element(html2);
                         var templateHtml = $compile(template)($scope);
                         angular.element(document.getElementById('addtbody')).append(templateHtml);
+                        var html3="  <div class='clearFloat'><div class='pdsIcon'>"
+                        for(var i=0;i<$scope.psdTotal.length;i++){
+                            if(i==0){
+                                html3+= "<p class='detailgroup'><span class='checkDetailico checkDetailpublic" +
+                                    " grayColor' id='psdAll' ></span><span class='checkDetailpublic checkDetailword Type-tit'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==1){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='brower' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==2){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='cockpit' ng-click='cockpit("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==3){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='mobile' ng-click='mobile("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==4){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='mobliePad' ng-click='mobliePad("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==5){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='process' ng-click='process("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==6){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='integrate' ng-click='intergrate("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==7){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='iBan' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==8){
+                                html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='iBan' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                            }else if(i==9){
+                            html3+="<p class='detailgroup'><span class='checkDetailico checkDetailpublic grayColor' id='iBan' ng-click='broswer("+$scope.psdTotal[i].productId+")'></span><span class'checkDetailpublic checkDetailword'>"+$scope.psdTotal[i].productName+"</span></p>";
+                        }
+                        }
 
                         function change2Stdtime(date) {
                             var date = new Date(date);
@@ -430,24 +446,24 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             }
                         }
                         //加载图表
-                        chang2Ctime(downloadslist);
-                        loadChart(downloadslist);
                         chang2Ctime(userlist);
                         loadChart(userlist);
                         //随着时间改变数据
-                        //
-                        function changData(date) {
+                        function changData(date,arr) {
                             var newData=[];
-                            for(var i=0;i< downloadslist.length;i++){
+                            for(var i=0;i< arr.length;i++){
                                 var collectData=[];
-                                for(var j=0;j<downloadslist[i].length-1;j++){
-                                    var Comdate=Date.parse(downloadslist[i][j].date);
+                                for(var j=0;j<arr[i].length-1;j++){
+                                    var Comdate=arr[i][j].date;
+                                    if(Number != typeof (Comdate)){
+                                        Comdate=Date.parse(arr[i][j].date);
+                                    }
                                     if(Comdate>=date){
-                                        var gogalTime=change2Stdtime(downloadslist[i][j].date);
-                                        collectData.push({date: gogalTime,countDownloads:downloadslist[i][j].countDownloads});
+                                        var gogalTime=change2Stdtime(arr[i][j].date);
+                                        collectData.push({date: gogalTime,countDownloads:arr[i][j].countDownloads});
                                     }
                                 }
-                                collectData.push({productId:downloadslist[i][downloadslist[i].length-1].productId});
+                                collectData.push({productId:arr[i][arr[i].length-1].productId});
                                 newData.push(collectData);
                             }
                            return newData;
@@ -457,37 +473,84 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         $scope.month=function() {
                             date=changeMonth(today);
                             date=Date.parse(date);
-                            result=changData(date);
-                            console.log(result)
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
+                            console.log(result);
                             loadChart(result);
                         };
                         //近一季
                         $scope.season=function() {
                             date=changeSeason(today);
                             date=Date.parse(date);
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
                             loadChart(result);
                         };
                         //近一年
                         $scope.year=function() {
                             date=changeYear(today);
                             date=Date.parse(date);
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
                             loadChart(result);
                         };
                         //近三年
                         $scope.Th3Years=function() {
                             date=change3Years(today);
                             date=Date.parse(date);
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
+                            console.log(result);
                             loadChart(result);
                         };
                         //全部
                         $scope.all=function() {
                             date=1262275200000;//2010/01/01
-                            result=changData(date);
+                            if(flag==1){
+                                result=changData(date,userlist);
+                            }else{
+                                result=changData(date,downloadslist);
+                            }
                             loadChart(result);
                         };
+                        $("#usercount").click(function(){
+                            flag=1;
+                            $(this).addClass('switch-left-down').removeClass('switch-left-up');
+                            $(this).siblings().removeClass('switch-left-down').addClass('switch-left-up');
+                            loadChart(userlist);
+                        });
+                        $("#downloadingcount").click(function(){//切换用户和装机量
+                            flag=0;
+                            $(this).addClass('switch-left-down').removeClass('switch-left-up');
+                            $(this).siblings().removeClass('switch-left-down').addClass('switch-left-up');
+                            chang2Ctime(downloadslist);
+                            loadChart(downloadslist);
+                        });
+                        //数组堆加
+                        /*function addArr(arr) {
+                            var n=name.length;
+                            if(n+1>5){
+                                Toast('您所选数据不能超过5条，点击取消所选数据！')
+                            }else{
+                                for(var i=0;i<5;i++){
+                                }
+                            }
+                        }*/
+                        //另一种方式给所有的Icon添加属性，然后匹配productId
+                        $scope.broswer=function () {//浏览器
+                        }
                         function loadChart(data) {
                             var endDate = [];
                             var data1=[];
@@ -496,36 +559,41 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             var data4=[];
                             var data5=[];
                             var name=[];
+                            var Color=[];
                             for(var m=0;m<data[0].length-1;m++){//时间坐标轴
                                 endDate.push(data[0][m].date)
                             }
-                            console.log(endDate+'endDate')
                             for(var n=0;n<5;n++){
                                 for(var m=0;m<data[n].length-1;m++) {//数据
                                     if (n == 0) {
                                         data1.push(data[n][m].countDownloads);
                                         if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
+                                            name.push(data[n][data[n].length-1]);
+                                            Color.push({color:'#5995ed'});
                                         }
                                     } else if (n == 1) {
                                         data2.push(data[n][m].countDownloads);
                                         if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
+                                            name.push(data[n][data[n].length-1]);
+                                            Color.push({color:'#88929a'});
                                         }
                                     } else if (n == 2) {
                                         data3.push(data[n][m].countDownloads);
                                         if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
+                                            name.push(data[n][data[n].length-1]);
+                                           Color.push({color:'#8c9cff'});
                                         }
                                     } else if (n == 3) {
                                         data4.push(data[n][m].countDownloads);
                                         if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
+                                            name.push(data[n][data[n].length-1]);
+                                            Color.push({color:'#8d59ed'});
                                         }
                                     } else if (n == 4) {
                                         data5.push(data[n][m].countDownloads);
                                         if(m==data[n].length-2){
-                                            name.push(data[n][data[n].length-1])
+                                            name.push(data[n][data[n].length-1]);
+                                            Color.push({color:' #d05c5b'});
                                         }
                                     }
                                 }
@@ -533,33 +601,49 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             for(var n=0;n<name.length;n++){
                                 if(name[n].productId==12){
                                     name[n].productName="浏览器";
+                                    Color[n].color="#5995ed";
                                 }else  if(name[n].productId==11){
                                     name[n].productName="驾驶舱";
+                                    Color[n].color="#88929a";
                                 }else if(name[n].productId==29){
                                     name[n].productName="集成应用";
+                                    Color[n].color="#8c9cff";
                                 }else if(name[n].productId==23){
                                     name[n].productName="进度计划";
+                                    Color[n].color="#8d59ed";
                                 }else if(name[n].productId==27){
                                     name[n].productName="移动应用";
+                                    Color[n].color="#d05c5b";
                                 }else if(name[n].productId==13){
                                     name[n].productName="iBan";
-                                }else if(name[n].productId==33){
+                                    Color[n].color="#65d4fe";
+                                }/*else if(name[n].productId==33){
                                     name[n].productName="协作";
-                                }else if(name[n].productId==28){
+                                    Color[n].color="#88929a";
+                                }*/else if(name[n].productId==28){
                                     name[n].productName="移动应用pad";
+                                    Color[n].color="#7159ED";
                                 }else if(name[n].productId==3){
                                     name[n].productName="土建";
+                                    Color[n].color="#a18110";
                                 }else if(name[n].productId==2){
                                     name[n].productName="钢筋";
+                                    Color[n].color="#c03f18";
                                 }else if(name[n].productId==5){
                                     name[n].productName="安装";
+                                    Color[n].color="#9bd1e7";
                                 }else if(name[n].productId==30){
                                     name[n].productName="班筑";
-                                }
+                                    Color[n].color="#013fa4";
+                                }/*else if(name[n].productId==30){
+                                    name[n].productName="班汇通";
+                                    Color[n].color="#f3cd67";
+                                }*/
                             }
                             /*画图2*/
                             var waveChart = echarts.init(document.getElementById('waveChart'));
                             date=endDate;
+                            // console.log(date+'date')
                             option= {
                                 tooltip: {
                                     trigger: 'axis',
@@ -576,7 +660,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     }
                                 },
                                 grid: {
-                                    left: '0%',
+                                    left: '5%',
                                     right: '4%',
                                     bottom: '20%',
                                     containLabel: true,
@@ -653,7 +737,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: 'rgb(255, 70, 131)'
+                                                color: Color[0].color
                                             }
                                         },
                                         areaStyle: {
@@ -670,7 +754,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         data: data1
                                     },
                                     {
-                                        name:name[2].productName,
+                                        name:name[1].productName,
                                         type:'line',
                                         symbol: 'circle',
                                         symbolSize:8,
@@ -678,7 +762,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: 'rgb(0, 0, 0)'
+                                                color:Color[1].color
                                             }
                                         },
                                         areaStyle: {
@@ -703,7 +787,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: '#989898'
+                                                color:Color[2].color
                                             }
                                         },
                                         areaStyle: {
@@ -728,7 +812,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: '#c03f18'
+                                                color:Color[3].color
                                             }
                                         },
                                         areaStyle: {
@@ -753,7 +837,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                         sampling: 'average',
                                         itemStyle: {
                                             normal: {
-                                                color: '#88929a'
+                                                color:Color[4].color
                                             }
                                         },
                                         areaStyle: {

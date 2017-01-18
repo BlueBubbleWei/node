@@ -1,0 +1,319 @@
+*{
+    padding:0;margin:0;
+}
+ul li{
+    list-style:none;
+}
+a{
+    text-decoration:none;
+}
+p,span,i,a,tr,th,input,textarea{
+    font-family:"Microsoft YaHei";font-size:14px;
+}
+/*----------清除样式-----*/
+.question-analysis .overflow{
+    overflow:hidden;
+    zoom:1;
+}
+/*---样式线----------*/
+.question-analysis .line-style{
+    width: 95%;
+    height: 2px;
+    float: left;
+    background: transparent;
+    text-align: center;
+}
+/*三角形*/
+.question-analysis .triangle{
+    width: 8px;
+    height: 8px;
+    /*border: 6px solid transparent;*/
+    /*border-bottom: 5px solid #7a7a7a;*/
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    margin-top: -33px;
+    margin-right: 10px;
+    -webkit-transform: rotate(-44deg);
+    -moz-transform: rotate(-44deg);
+    -ms-transform: rotate(-44deg);
+    -o-transform: rotate(-44deg);
+    transform: rotate(-44deg);
+    transform-origin:center 8px ;
+    float:right;
+}
+/*-----------------------------analysis-main-----------------------------------*/
+.question-analysis .analysis-main{
+    width:100%;height:auto;
+}
+.question-shapeShow{
+    box-shadow:1px 0px 6px rgba(0,0,0,0.3);padding: 0 10px;background:#fff;
+}
+/*------------------------------analysis-Nav(产品nva)------------------------ */
+.question-analysis .analysis-Nav ul{
+    border-bottom:1px solid #ddd;
+}
+.question-analysis .analysis-Nav ul li{
+    float: left;
+    display: inline-block;
+    line-height: 53px;
+    padding: 0 30px;
+}
+.question-analysis .analysis-Nav ul li:hover .line-style{
+    background:#aa1019;
+}
+/*------------------------------analysis-canvas(问题分析画布)------------------------ */
+.question-analysis .analysis-canvas{
+    width:98.9%;
+    height:auto;padding:10px;
+}
+.question-analysis .analysis-canvas #analysissShape{
+    height:320px;
+}
+/*----------------------------------------analysis-table--------------------------------*/
+.question-analysis .analysis-table{
+    width:100%;height:auto;box-shadow:1px 0px 6px rgba(0,0,0,0.3);margin:15px 0;background:#fff;
+}
+.question-analysis .analysis-table{
+    width:100%;
+}
+.analysis-table .content-table{
+    width:100%;
+    height:500px;
+    overflow:auto;
+}
+.analysis-table>.content-table thead  {
+    width:100%;
+}
+.question-analysis  .analysis-main .analysis-table .content-table table tbody{
+    width:100%;
+
+}
+.analysis-table>.content-table table{
+    width:100%;
+}
+.question-analysis .analysis-table  tr{
+    line-height:40px;text-align:center;vertical-align: middle;
+}
+.analysis-table .fixed-table{
+    width:100%;
+}
+.analysis-table table tr td:nth-child(1),.analysis-table .fixed-table tr th:nth-child(1){
+    width:16%;
+}
+.analysis-table table tr td:nth-child(2),.analysis-table .fixed-table tr th:nth-child(2){
+    width:46%;
+}
+.analysis-table table tr td:nth-child(3),.analysis-table .fixed-table tr th:nth-child(3) {
+    width:14%;
+}
+.analysis-table table tr td:nth-child(4),.analysis-table .fixed-table tr th:nth-child(4){
+    width:20%;
+}
+.question-analysis .analysis-tableIf{
+    padding:15px 15px 0;width:100%;
+}
+.question-analysis .analysis-tableIf .analysis-inputs{
+    width:672px;float:left;height:45px;margin-top: -9px;
+}
+.question-analysis .analysis-tableIf>div{
+    margin-right:10px;
+}
+.question-analysis .analysis-tableIf .allTime{
+    height:45px;border:1px solid #1A1A1A;border-radius:5px;width:200px;display:inline-block;
+}
+.question-analysis .analysis-tableIf>div{
+    float:left;
+}
+.question-analysis .analysis-tableIf .analysis-btn{
+    float:left;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(1){
+    background:#aa1019;color:#fff;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(1):hover{
+    background:#850911;color:#fff;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(1):active{
+    background: #C4101B;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(2){
+    background:#fff;color:#000;border:1px solid #1A1A1A;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(2):hover{
+    background:#1A1A1A;color:#fff;border:1px solid transparent;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(2):active{
+    background:#3D3D3D;color:#fff;border:1px solid transparent;
+}
+.question-analysis .analysis-tableIf .analysis-btn input{
+    width:120px;
+    height:45px;
+    border-radius:5px;
+}
+.question-analysis .anlaysis-inputWap{
+    position: absolute;
+    top: 44px;
+    line-height: 29px;
+    background: #fff;
+    border: 1px solid #1a1a1a;
+    width: 100%;display:none ;
+}
+.anlaysis-inputWap p:hover{
+    background:#f5f5f5;color:#aa1019;
+}
+#quesAllTime>p,#quesAllDeploy>p,#quesAllType>p,#quesAllVersition>p{
+    cursor:pointer;
+}
+
+/*-----------------------------------------------滚动条------------------------------------*/
+@charset "utf-8";
+.overflow{
+    clear:both;
+    zoom:1;
+}
+.pages {
+    width:850px;
+    margin:40px auto 0 auto;
+   /*text-align:center;*/
+}
+.pages #Pagination {
+    float: left;
+    overflow: hidden;
+}
+.pages #Pagination .pagination {
+    height: 40px;
+    text-align: right;
+    font-family: \u5b8b\u4f53,Arial;
+}
+.pages #Pagination .pagination a,
+.pages #Pagination .pagination span{
+    float: left;
+    display: inline;
+
+    /*padding: 8px 13px;*/
+    border: 1px solid #e6e6e6;
+    border-right: none;
+    background: #f6f6f6;
+    color: #666666;
+    font-family: \u5b8b\u4f53,Arial;
+    font-size: 14px;
+    cursor: pointer;
+    /*border:1px solid transparent;*/
+}
+
+.pages #Pagination .pagination a{
+    width: 30px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    display:inline-block;
+    border: 1px solid #e6e6e6;
+}
+.pages #Pagination .pagination a:hover{
+    border:1px solid #1a1a1a;
+}
+.pages #Pagination .pagination a:active{
+    border:1px solid transparent;
+    color:#1a1a1a;
+}
+.pages #Pagination .pagination .current {
+    background: #1a1a1a;border:1px solid transparent;
+    color: #fff;
+}
+.pages #Pagination .pagination .prev,
+.pages #Pagination .pagination .next {
+    float: left;
+    width:70px;
+
+    /*padding: 8px 13px;*/
+    display:inline;
+    border: 1px solid #e6e6e6;
+    background: #f6f6f6;
+    color: #666666;
+    cursor: pointer;
+}
+.pages #Pagination .pagination .prev{
+    border: 1px solid #e6e6e6 ;
+    border-right:none !important;
+}
+.pages #Pagination .pagination .prev i,
+.pages #Pagination .pagination .next i {
+    display: inline-block;
+    width: 4px;
+    height: 11px;
+    margin-right: 5px;
+    /*background: url(../images/icon.fw.png) no-repeat;*/
+}
+.pages #Pagination .pagination .prev {
+    border-right: none;
+}
+.pages #Pagination .pagination .prev i {
+    background-position: -144px -1px;
+    *background-position: -144px -4px;
+}
+.pages #Pagination .pagination .next i {
+    background-position: -156px -1px;
+    *background-position: -156px -4px;
+}
+.pages #Pagination .pagination .pagination-break {
+    padding: 8px 5px;
+    border: none;
+    border-left: 1px solid #e6e6e6;
+    background: none;
+    cursor: default;
+}
+.pages .searchPage {
+    float: left;
+    padding: 8px 0;
+    margin-top:-3px;
+    margin-left:37px;
+}
+.pages .searchPage .page-sum {
+    padding: 11px 5px;
+    color: #1a1a1a;
+    font-family: \u5b8b\u4f53,Arial;
+    font-size: 14px;
+}
+.pages .searchPage .page-go {
+    padding: 8px 0;
+    color: #1a1a1a;
+    font-family: \u5b8b\u4f53,Arial;
+    font-size: 14px;
+    padding: 10px 0\9;
+    *padding: 6px 0;
+}
+.pages .searchPage .page-go input {
+    width: 48px;
+    height: 20px;
+    margin: 0 5px;
+    padding-left: 5px;
+    border: 1px solid #1a1a1a;
+    text-align: center;
+}
+.pages .searchPage .page-btn {
+    margin: 9px 0 5px 5px;
+    padding: 6px 12px;
+    background: #fff;
+    border-radius: 2px;
+    color: #1a1a1a;
+    font-family: Arial, 'Microsoft YaHei';
+    font-size: 14px;
+    text-decoration: none;
+    border:1px solid transparent;
+}
+.pages .searchPage .page-btn:hover{
+    border:1px solid #1a1a1a;
+}
+.pages .searchPage .page-btn:active{
+    border:1px solid transparent;
+    background:#1a1a1a;color:#fff;
+}
+.everyPage,.allPage{
+    margin:0 10px;color:#1a1a1a !important;
+}
+.countPage{
+    color:#1a1a1a;padding:0 10px;
+}
+.countPage strong{
+    padding:0 8px;
+}

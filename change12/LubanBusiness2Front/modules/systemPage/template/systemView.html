@@ -1,0 +1,85 @@
+<div class="system-view">
+    <div class="GenTopStatistics">
+        <div><img src="systemPage/images/systemgeneral.png"><p>系统使用情况</p></div>
+
+    </div>
+
+    <div class="panel panel-default systemList">
+        <!-- Default panel contents -->
+        <!--<div class="panel-heading">Panel heading</div>-->
+
+        <!-- Table -->
+        <table class="table table-striped systemGeneral">
+            <thead id="addthead">
+            <tr>
+                <th></th><th>累计用户</th><th>累计装机量</th><th>日均登陆人数</th><th>单日在线最高人数</th>
+            </tr>
+            </thead>
+            <tbody id="addtbody">
+            </tbody>
+        </table>
+    </div>
+    <div class="systemTrend">
+        <div class="systemTrend-top">
+        </div>
+        <div class="system-titl">
+            <img class="titl-img" src="systemPage/images/titl-img.png" alt=""><p class="titl-word">系统整体趋势</p>
+        </div>
+        <div class="systemChart">
+            <div class="chart-click">
+                <div class="click-left">
+                    <!--switch class adding this one-->
+                    <p class="count-number switch-left-down" id="usercount">累计用户</p>
+                    <p class="count-number"  id="downloadingcount">累计装机量</p>
+                </div>
+                <div class="click-right">
+                    <p class="select-time" ng-click="all()">全部</p>
+                    <p class="select-time"  ng-click="Th3Years()">近三年</p>
+                    <p class="select-time"  ng-click="year()">近一年</p>
+                    <p class="select-time"  ng-click="season()">近一季</p>
+                    <p class="select-time" ng-click="month()">近一月</p>
+                </div>
+            </div>
+           <!-- <div id="trendChart" class="chart">
+                &lt;!&ndash;图表&ndash;&gt;
+            </div>-->
+            <div id="waveChart" class="wavechart"></div>
+            <div class="chartIcon">
+                <!--<div class="leftAll ">-->
+                    <!--<p class="checkInfo "><span class="checkALL checkword">全选</span><input type="checkbox" id="checkALL"  checked="checked" class="checkALL" for="checkALL" ></p>-->
+                <!--</div>-->
+                <div class="leftCheck" id="rightIcon">
+                    <div class="clearFloat">
+                        <div class="pdsIcon">
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="psdAll" ></span><span class="checkDetailpublic checkDetailword Type-tit">PDS总体</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="brower" ng-click="broswer()"></span><span class="checkDetailpublic checkDetailword ">浏览器</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="cockpit" ng-click="cockpit()"></span><span class="checkDetailpublic checkDetailword">驾驶舱</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="mobile" ng-click="mobile()"></span><span class="checkDetailpublic checkDetailword">移动应用</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="mobliePad" ng-click="mobliePad()"></span><span class="checkDetailpublic checkDetailword">移动应用(pad)</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="process" ng-click="process()"></span><span class="checkDetailpublic checkDetailword">进度计划</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="integrate" ng-click="intergrate()"></span><span class="checkDetailpublic checkDetailword">集成应用</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="iBan" ng-click="broswer()"></span><span class="checkDetailpublic checkDetailword">iBAN</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="BC" ng-click="BC()"></span><span class="checkDetailpublic checkDetailword">BC</span></p>
+                        </div>
+                        <div class="pdsIcon">
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="calGeneral"></span><span class="checkDetailpublic checkDetailword Type-tit">算量总体</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="tuJian" ng-click="tuJian()"></span><span class="checkDetailpublic checkDetailword">土建</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="gangjin" ng-click="gangjin()"></span><span class="checkDetailpublic checkDetailword">钢筋</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="install" ng-click="install()"></span><span class="checkDetailpublic checkDetailword">安装</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="construct" ng-click="construct()"></span><span class="checkDetailpublic checkDetailword">施工</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="subordate" ng-click="subordate()"></span><span class="checkDetailpublic checkDetailword">下料</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="special" ng-click="special()"></span><span class="checkDetailpublic checkDetailword">专项</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="node" ng-click="node()"></span><span class="checkDetailpublic checkDetailword">节点</span></p>
+                        </div>
+                        <div class="pdsIcon">
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="others"></span><span class="checkDetailpublic checkDetailword Type-tit">其他</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="banzhu" ng-click="banzhu()"></span><span class="checkDetailpublic checkDetailword">班筑</span></p>
+                            <p class="detailgroup"><span class="checkDetailico checkDetailpublic grayColor" id="banhuitong"  ng-click="banhuitong()"></span><span class="checkDetailpublic checkDetailword">班汇通</span></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
