@@ -1,0 +1,29 @@
+<div class="memberManageBox">
+    <div class="MemScreeningCondition">
+        <div class="inputDiv"><div></div><input placeholder="企业名称关键字" ng-model="inputEnterpriseName" onfocus='this.placeholder=""' onblur='this.placeholder="企业名称关键字"' /></div>
+        <div class="selectType" data-default-value="全部部署类型" data-placeholder=""></div>
+        <div class="searchButton" ng-click="searchEnterpriseList()">搜索</div>
+        <div class="addButton" ng-click="addEnterprise()">添加</div>
+    </div>
+    <div class="characterListForm">
+        <div class="characterListTitle">
+            <div class="characterListName" style="width: 40%;">企业名称</div>
+            <div class="characterListName" style="width: 20%;">地区</div>
+            <div class="characterListName" style="width: 20%;">添加时间</div>
+            <div class="characterListName" style="width: 20%;">操作</div>
+        </div>
+        <div id="EnterpriseList"></div>
+    </div>
+    <div class="pagingAncestorOut">
+        <div style=" width:100%;height: 70px;padding: 10px 40px;">
+            <div class="pagingFather">
+                <div class="pagingDescription">
+                    <div >当前第&nbsp;{{pageStart}}&nbsp;页&nbsp;共&nbsp;{{EntListCount}}&nbsp;条</div>
+                    <div ><span>每页显示&nbsp;&nbsp;</span><div id="pageSizeSelect"  data-default-value="150" data-placeholder=""></div><span>&nbsp;&nbsp;条</span></div>
+                </div>
+                <div  id="paging">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
