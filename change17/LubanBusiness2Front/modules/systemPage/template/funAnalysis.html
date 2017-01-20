@@ -1,0 +1,41 @@
+<style>
+    .function-analysis table tr th,.function-analysis table tr td{
+        height: 50px;
+        width: 75px;
+        font-size: 14px;
+    }
+</style>
+<!--问题分析-->
+<div class="question-analysis function-analysis">
+    <div class="analysis-main">
+        <!--图形展示-->
+        <div class="question-shapeShow function-shapeShow">
+            <!--analysis-Nav-->
+            <div class="analysis-Nav">
+                <ul class="analysis-Nav-list overflow">
+                    <li ng-repeat="item in productNav track by $index"><p ng-click="changeProductId(item)">{{item.productName}}</p><span class="line-style"></span></li>
+                </ul>
+            </div>
+            <!--analysis-canvas-->
+            <div class="fun-table">
+                <table style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>功能名称</th>
+                            <th>使用次数</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in functionList track by $index">
+                            <td ng-click="functionDetail(item.functionName)">{{item.functionName}}</td>
+                            <td ng-click="functionDetail(item.functionName)">{{item.useTimes}}</td>
+                            <td><span>置顶</span><span>置底</span><span>取消置顶</span><span>取消置底</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

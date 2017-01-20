@@ -1,0 +1,144 @@
+
+
+<div id="listPage">
+    <div class="pickCondition">
+		<div>筛选条件</div>
+		<div class="PicConContent">
+			<div>
+				<div class="PicConConLeft"><div>企业名称:</div><div>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区:</div><div>部署类型:</div></div>
+				<div class="PicConConRight">
+					<input placeholder="企业名称"  onfocus='this.placeholder=""' ng-model="inputEntName" onblur='this.placeholder="企业名称"'/>
+					<div>
+						<div class="areaSelectProvince" data-default-value="选择省份"></div>
+						<div class="areaSelectCity"></div>
+					</div>
+					<div id="deployType"  data-default-value="全部类型" data-placeholder=""></div>
+				</div>
+			</div>
+			<div></div>
+			<div>
+				<div class="PicConConRigTop">参与统计登陆时长/次数的客户端：</div>
+				<div class="systemOptions">
+					<div ng-repeat="item in systemOptionsList" id="SysOpt{{item.id}}" >
+						<div class="SysOptItemBox" name="{{item.id}}"><select-this ng-show="itemShow[item.id]"></select-this></div>
+						<div class="SysOptItemText">{{item.text}}</div>
+					</div>
+				</div>
+				<div class="PicConConRigTop PicConConRigBottom">统计时间范围:</div>
+				<div id="statisticsScope"  data-default-value="最近一月" data-placeholder=""></div>
+				<div id="StaScoDescription"></div>
+			</div>
+		</div>
+		<div>
+			<!--<div id="exportStatistics">导出</div>-->
+			<div id="siftStatistics" ng-click="catchEntInfo()">筛选</div>
+		</div>
+	</div>
+	<div id="loginCountChart">
+		<div>
+			<div>企业按周人均登录次数划分</div>
+			<div id="perCapitaCount">
+				<canvas id="perCountCanvas" ></canvas>
+			</div>
+		</div>
+		<div>
+			<div>企业按周人均登录时长划分</div>
+			<div id="perCapitaTime">
+				<canvas id="perTimeCanvas" ></canvas>
+			</div>
+		</div>
+	</div>
+	<div class="hideIcon"  ng-init="hideIconFlag=false" ng-click="hideIconFlag=!hideIconFlag;hideCountChart(hideIconFlag);" ></div>
+	<div class="enterpriseLoginDetail">
+		<div class="listPageListOut" id="listPageListOut">
+			<div>
+				    <div class="listTitle">
+					    <div name="enterpriseName" ><span>企业名称</span></div>
+					    <div name="zoneName" ng-show="listShow[0]" ng-init="zoneNameDesc=false" ng-click='zoneNameDesc=!zoneNameDesc;rankList(zoneNameDesc,"zoneName")'><span>地区</span><select-arrow></select-arrow></div>
+					    <div  name="avgTime" ng-show="listShow[1]" ng-init="avgTimeDesc=false" id="avgTimeTitle" ng-click='avgTimeDesc=!avgTimeDesc;rankList(avgTimeDesc,"avgTime")'><span>周人均登录次数</span><select-arrow></select-arrow></div>
+					    <div name="avgHour" ng-show="listShow[2]" ng-init="avgHourDesc=false" id="avgHourTitle" ng-click='avgHourDesc=!avgHourDesc;rankList(avgHourDesc,"avgHour")'><span>周人均登录时长</span><select-arrow></select-arrow></div>
+						<div name="allTimes" ng-show="listShow[4]" ng-init="allTimesDesc=false" id="allTimesTitle" ng-click='allTimesDesc=!allTimesDesc;rankList(allTimesDesc,"allTimes")'><span>总次数</span><select-arrow></select-arrow></div>
+					    <div name="allHours" ng-show="listShow[3]" ng-init="allHoursDesc=false" id="allHoursTitle" ng-click='allHoursDesc=!allHoursDesc;rankList(allHoursDesc,"allHours")'><span>总时长</span><select-arrow></select-arrow></div>
+					    <div name="serverVersion" ng-show="listShow[5]" ng-init="serverVersionDesc=false" ng-click='serverVersionDesc=!serverVersionDesc;rankList(serverVersionDesc,"serverVersion")'><span>版本号</span><select-arrow></select-arrow></div>
+					    <div name="renewTime" ng-show="listShow[6]" ng-init="renewTimeDesc=false" ng-click='renewTimeDesc=!renewTimeDesc;rankList(renewTimeDesc,"renewTime")'><span>维护时间</span><select-arrow></select-arrow></div>
+					    <div id="listPageList"></div>
+				    </div>
+			</div>
+			<div></div>
+		</div>
+		<select-trigger ng-init="selpopShow=false" ng-click="selpopShow=hOrSPopup(selpopShow,'selectPopId')"></select-trigger>
+		<select-popup style="position: absolute;right: 40px;top:82px;overflow: hidden;width: 0px;height: 0px;border:0px solid #1A1A1A;border-radius: 0px;" id="selectPopId" ></select-popup>
+		<div style=" width:100%;height: 100px;padding: 0px 40px;">
+			<div class="pagingFather">
+				<div class="pagingDescription">
+					<div >当前第&nbsp;{{pageStart}}&nbsp;页&nbsp;共&nbsp;{{EntListCount}}&nbsp;条</div>
+					<div ><span>每页显示&nbsp;&nbsp;</span><div id="pageSizeSelect"  data-default-value="15" data-placeholder=""></div><span>&nbsp;&nbsp;条</span></div>
+				</div>
+				<div  id="paging">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="height: 20px"></div>
+</div>
+<div id="detailPage">
+	<div  class="detailInfoBox">
+	<div class="detailNavigation">
+		<!--<span class="DetNav_pageTitle">企业统计</span>-->
+		<!--<div class="pointTo"></div>-->
+		<span class="DetNav_pageTitle">{{enterpriseName}}</span>
+		<div class="backListPage" ng-click="backListPage()">
+			<span class="DetNav_back">返回</span>
+		   <div class="arrowBack"></div>
+		</div>
+	</div>
+	<div class="detailInfo">
+		<div>
+			<div>
+				<div class="detailInfo_span"><div>部署类型：</div><div>{{deployType}}</div></div>
+				<div class="detailInfo_span"><div>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：</div><div>{{region}}</div></div>
+			</div>
+			<div>
+				<div class="detailInfo_span"><div>企&nbsp;&nbsp;&nbsp;业&nbsp;&nbsp;&nbsp;ID：</div><div>{{enterpriseId}}</div></div>
+				<div class="detailInfo_span"><div>服务器版本：</div><div>{{serverVersion}}</div></div>
+			</div>
+			<div>
+				<div class="detailInfo_span"><div>授权时间：</div><div>{{authorizationTime}}</div></div>
+				<div class="detailInfo_span"><div>维护时间：</div><div>{{renewTime}}</div></div>
+			</div>
+		</div>
+		<div class="detailInfo_add"><div>详细地址：</div><div>{{address}}</div></div>
+	</div>
+		</div>
+	<div class="detailInfoStrip">
+		<div class="detailInfoStrip_Title">企业内客户端使用对比</div>
+		<div class="detailInfoStrip_type">
+			<div name= "tripTypeSelect"  ng-click="tripTypeState=0">周人均登录次数</div>
+			<div name= "tripTypeSelect"  ng-click="tripTypeState=1">周人均登录时长</div>
+			<div name= "tripTypeSelect"  ng-click="tripTypeState=2">总登陆时长</div>
+			<div name= "tripTypeSelect"  ng-click="tripTypeState=3">总登陆次数</div>
+		</div>
+		<div class="tripContent">
+			<div><div class="tripItemName">BE</div><div name="BE" title="{{tripContent.BE}}" class="tripItemBar"></div></div>
+			<div><div class="tripItemName">MC</div><div name="MC" title="{{tripContent.MC}}" class="tripItemBar"></div></div>
+			<div><div class="tripItemName">SP</div><div name="SP" title="{{tripContent.SP}}" class="tripItemBar"></div></div>
+			<div><div class="tripItemName">BV</div><div name="BV" title="{{tripContent.BV}}" class="tripItemBar"></div></div>
+			<div><div class="tripItemName">iBAN</div><div name="IBAN" title="{{tripContent.IBAN}}" class="tripItemBar"></div></div>
+			<div><div class="tripItemName">BW</div><div name="BW" title="{{tripContent.BW}}" class="tripItemBar"></div></div>
+		</div>
+		<div class="levelLine"></div>
+		<div class="tripScale">
+			<div class="scaleStart">0</div>
+			<div ng-repeat="item in tripScaleList">{{item}}</div>
+			<div class="scaleEnd">{{tripScaleListLast}}</div>
+		</div>
+		<div id="DISTimeBucket"  data-default-value="" data-placeholder="选择时间段"></div>
+	</div>
+	<div class="detailForm">
+		<div class="detailForm_title">企业内客户端使用详情</div>
+		<div class="rowNameDiv">
+			<div ng-repeat="item in rowNameList">{{item}}</div>
+		</div>
+		<div id="detailFormC"></div>
+	</div>
+</div>

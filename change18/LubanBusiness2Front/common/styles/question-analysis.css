@@ -1,0 +1,562 @@
+*{
+    padding:0;margin:0;
+}
+body{
+    position:relative;
+}
+ul li{
+    list-style:none;
+}
+
+a{
+    text-decoration:none;
+}
+p,span,i,a,tr,th,input,textarea{
+    font-family:"Microsoft YaHei";font-size:14px;
+}
+.question-analysis table  head caption, th {
+    text-align: center;
+}
+.gary{
+    color:#7a7a7a;
+}
+.float-l{
+    float:left;width:60px;height:30px;display:inline-block;margin-top: 3px;
+}
+.overflow{
+    zoom:1;
+    clear:both;
+}
+.float-l+span{
+    line-height:27px;
+    float: right;
+    width: 88%;
+    /* max-height: 353px; */
+    margin-bottom: 20px;
+}
+.font-bold{
+    font-weight:bold;width:60px;display:inline-block;
+}
+.btns-style{
+    line-height:45px;border:1px solid #1a1a1a;border-radius:5px;background:#fff;color:#1a1a1a;padding:0 10px;font-size:14px;
+}
+.btns-style:hover{
+    background:#1a1a1a;color:#fff;border:1px solid transparent;
+}
+.btns-style:active{
+    border:1px solid transparent;color:#fff;background:#3D3D3D;
+}
+.clone-btn{
+    width:108px;float:right;padding:0;color:#fff;
+}
+.copy-btns{
+    background: transparent;height:45px;margin-right:10px;
+}
+.clone-btn:hover >.copy-btns{
+    color:#fff !important;
+}
+.clone-btn:active .copy-btns{
+    color:#fff !important;
+}
+.substr{
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+.popup-tips{
+    position: absolute;
+    left: 38%;
+    top: 0;
+    background: #aa1019;
+    color: #fff;
+    padding: 10px 45px;opacity:0;
+}
+.question-analysis table  head caption, .question-analysis table  head th{
+    text-align:center !important;
+}
+/*排序*/
+.question-analysis table
+    /*----------清除样式-----*/
+.question-analysis .overflow{
+    overflow:hidden;
+    zoom:1;
+}
+/*---样式线----------*/
+.question-analysis .line-style{
+    width: 90%;
+    height: 2px;
+    float: left;
+    background: #aa1019;
+    text-align: center;
+    display: none;
+    margin: 0 auto;
+    margin-left: 2px;
+}
+/*三角形*/
+.question-analysis .triangle{
+    width: 8px;
+    height: 8px;
+    /*border: 6px solid transparent;*/
+    /*border-bottom: 5px solid #7a7a7a;*/
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    margin-top: -33px;
+    margin-right: 10px;
+    -webkit-transform: rotate(-44deg);
+    -moz-transform: rotate(-44deg);
+    -ms-transform: rotate(-44deg);
+    -o-transform: rotate(-44deg);
+    transform: rotate(-44deg);
+    transform-origin:center 8px ;
+    float:right;
+}
+/*-----------------------------analysis-main-----------------------------------*/
+.question-analysis .analysis-main{
+    width:100%;height:auto;
+}
+.question-shapeShow{
+    box-shadow:1px 0px 6px rgba(0,0,0,0.3);padding: 0 10px;background:#fff;
+}
+/*------------------------------analysis-Nav(产品nva)------------------------ */
+.question-analysis .analysis-Nav ul{
+    border-bottom:1px solid #ddd;
+}
+.question-analysis .analysis-Nav ul li{
+    float: left;
+    display: inline-block;
+    line-height: 53px;
+    padding: 0 30px;cursor:pointer
+}
+.question-analysis .analysis-Nav ul li>p{
+    font-size:16px;
+}
+.question-analysis .analysis-Nav ul li>p:hover{
+    color: #aa1019;
+}
+.question-analysis .analysis-Nav ul li>p:active{
+    color: #aa1019;
+}
+.question-analysis .analysis-Nav ul li :hover .line-style{
+    display:block;
+}
+.ques-cancel{
+    display:none;
+}
+/*------------------------------analysis-canvas(问题分析画布)------------------------ */
+.question-analysis .analysis-canvas{
+    width:98.9%;
+    height:auto;padding:10px;
+}
+.question-analysis .analysis-canvas #analysissShape{
+    height:320px;
+}
+/*----------------------------------------analysis-table--------------------------------*/
+.question-analysis .analysis-table{
+    width:100%;height:auto;box-shadow:1px 0px 6px rgba(0,0,0,0.3);margin:15px 0;background:#fff;position:relative;
+}
+.question-analysis .analysis-table{
+    width:100%;
+}
+.analysis-table .content-table{
+    width:100%;
+    height:500px;
+    overflow:auto;
+}
+.analysis-table .content-table table{
+    width:100%;
+}
+.analysis-table>.content-table thead  {
+    width:100%;
+}
+.question-analysis  .analysis-main .analysis-table .content-table table tbody{
+    width:100%;
+
+}
+.analysis-table>.content-table table{
+    width:100%;
+}
+.question-analysis .analysis-table  tr{
+    line-height:40px;text-align:center;vertical-align: middle;
+}
+.analysis-table .fixed-table{
+    width:100%;
+}
+.analysis-table table tr td:nth-child(1),.analysis-table .fixed-table tr th:nth-child(1){
+    width:16%;
+}
+.analysis-table table tr td:nth-child(2),.analysis-table .fixed-table tr th:nth-child(2){
+    width:46%;
+}
+.analysis-table table tr td:nth-child(3),.analysis-table .fixed-table tr th:nth-child(3) {
+    width:14%;
+}
+.analysis-table table tr td:nth-child(4),.analysis-table .fixed-table tr th:nth-child(4){
+    width:20%;
+}
+.question-analysis .analysis-tableIf{
+    padding:15px 15px 0;width:100%;
+}
+.question-analysis .analysis-tableIf .analysis-inputs{
+    width:672px;float:left;height:45px;margin-top: -9px;margin-bottom:24px;
+}
+.question-analysis .analysis-tableIf>div{
+    margin-right:10px;
+}
+.question-analysis .analysis-tableIf .allTime{
+    height:45px;border:1px solid #1A1A1A;border-radius:5px;width:200px;display:inline-block;
+}
+.question-analysis .analysis-tableIf>div{
+    float:left;
+}
+.question-analysis .analysis-tableIf .analysis-btn{
+    float:left;margin:0 0  0 -2px;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(1){
+    background:#aa1019;color:#fff;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(1):hover{
+    background:#850911;color:#fff;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(1):active{
+    background: #C4101B;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(2){
+    background:#fff;color:#000;border:1px solid #1A1A1A;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(2):hover{
+    background:#1A1A1A;color:#fff;border:1px solid transparent;
+}
+.question-analysis .analysis-tableIf .analysis-btn input:nth-child(2):active{
+    background:#3D3D3D;color:#fff;border:1px solid transparent;
+}
+.question-analysis .analysis-tableIf .analysis-btn input{
+    width:120px;
+    height:45px;
+    border-radius:5px;
+}
+.analysis-filter{
+    margin:0 8px 0 0px;
+}
+.question-analysis .anlaysis-inputWap{
+    position: absolute;
+    top: 44px;
+    line-height: 29px;
+    background: #fff;
+    border: 1px solid #1a1a1a;
+    width: 100%;display:none ;
+}
+.anlaysis-inputWap p:hover{
+    background:#f5f5f5;color:#aa1019;
+}
+#quesAllTime>p,#quesAllDeploy>p,#quesAllType>p,#quesAllVersition>p{
+    cursor:pointer;
+}
+/*排序图标*/
+.question-analysis .fixed-table .table-sort{
+
+}
+.question-analysis .fixed-table .question-sortVersiton{
+    position:relative;
+}
+.question-analysis .fixed-table .question-sort{
+    width: 4px;
+    height: 12px;
+    display: inline-block;
+    background: url(http://lubanbusiness2.com.cn:63342/LubanBusiness2Front/common/styles/../images/icon-sort.png) no-repeat 0 0;
+    position: absolute;
+    left: 7px;
+    top: 4px;cursor:pointer;
+}
+.question-analysis .fixed-table .question-sort.sort-right{
+    background: url(http://lubanbusiness2.com.cn:63342/LubanBusiness2Front/common/styles/../images/icon-sort.png) no-repeat -10px 0;
+    position: absolute;
+    left: 15px;
+        top: 4px;
+}
+.question-analysis .fixed-table .question-sort.sort-left:hover{
+    background-position-y: -12px;
+}
+.question-analysis .fixed-table .question-sort.sort-right:hover{
+    background-position-y: -24px;
+}
+
+/*--------------------------------------弹窗ques-analysis-popup--------------------------------*/
+.ques-analysis-popup{
+    width: 750px;
+    min-height: 553px;
+    max-height:677px;
+    border: 1px solid #1a1a1a;
+    border-radius: 5px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -391px;
+    margin-top: -301px;
+    background: #fff;
+    padding: 42px;z-index:2;
+}
+/*-----------------------------------弹窗标题部分---------------------*/
+/*-------.ques-title .ques-title-icon---*/
+/*.ques-analysis-popup .ques-title .icon-detail{*/
+    /*background:url(../images/icon-mark.png) no-repeat center -19px;width: 20px;*/
+    /*height: 17px;*/
+    /*display: inline-block;float:left;margin-right:3px;margin-top:7px;*/
+/*}*/
+.ques-analysis-popup .ques-title-icon{
+    display:inline-block;
+}
+.ques-analysis-popup .ques-title-icon span:nth-child(2){
+    font-size:18px;font-weight:bold;
+}
+/*--------------------.ques-title .ques-close*/
+.ques-analysis-popup .ques-title .ques-close{
+    float:right;margin-right:-10px;
+}
+.ques-analysis-popup .ques-title .ques-close span:nth-child(1){
+        width:20px;height:20px;display:inline-block;border-right:2px solid #1a1a1a;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    margin-right: -8px;
+}
+.ques-analysis-popup .ques-title .ques-close span:nth-child(2){
+    width:20px;height:20px;display:inline-block;border-right:2px solid #1a1a1a;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    transform: rotate(135deg);
+}
+/*-----------------------------------弹窗内容部分---------------------*/
+.question-analysis .ques-analysis-popup .ques-content{
+    margin-top:35px;clear:both;
+}
+.question-analysis .ques-analysis-popup .ques-content>div{
+    margin-bottom:20px;
+}
+.question-analysis .ques-analysis-popup .ques-content>div.desc p{
+    display:inline-block;width:200px;text-align:left;
+}
+.question-analysis .ques-analysis-popup .ques-content>div p:nth-child(1){
+    margin-right:237px;
+}
+.question-analysis .ques-content-company p{
+    width:100%;
+}
+/*弹窗图片*/
+.question-analysis .ques-analysis-popup .question-swiper{
+    padding-left:60px;
+}
+.ques-analysis-popup .question-swiper img{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;margin-right:6px;
+}
+.ques-analysis-popup .ques-copy{
+    width: 100%;
+    clear: both;
+    position: absolute;
+    bottom: 43px;
+    left: -43px;
+}
+.ques-analysis-popup .ques-copy .copy-btns{
+    float:right;
+}
+.desc-textarea{
+    width: 75px;
+}
+.ques-maskbg{
+    position:fixed;
+    left:0;
+    top:0;
+    background:#000;
+    opacity:0.4;
+    width:100%;
+    height:100%;
+    z-index:1;
+}
+.question-analysis .companyInfo{
+    width: 89%;
+    float: right;
+    display: inline-block;
+}
+.isCopy{
+    max-height: 159px;
+    overflow: auto;
+}
+/*-----------------------------------------------分页器插件------------------------------------*/
+.question-overflow{
+    overflow:auto;
+    zoom:1;
+
+}
+.pages {
+    width:850px;
+    margin:40px auto 0 auto;
+    padding-bottom: 19px;
+   /*text-align:center;*/
+}
+.pages #Pagination {
+    float: left;
+    overflow: hidden;
+}
+.pages #Pagination .pagination {
+    height: 40px;
+    text-align: right;
+    font-family: \u5b8b\u4f53,Arial;
+}
+.pages #Pagination .pagination a,
+.pages #Pagination .pagination span{
+    float: left;
+    display: inline;
+
+    /*padding: 8px 13px;*/
+    border: 1px solid #e6e6e6;
+    border-right: none;
+    background: #f6f6f6;
+    color: #666666;
+    font-family: \u5b8b\u4f53,Arial;
+    font-size: 14px;
+    cursor: pointer;
+    /*border:1px solid transparent;*/
+}
+
+.pages #Pagination .pagination a{
+    width: 30px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    display:inline-block;
+    border: 1px solid #e6e6e6;
+}
+.pages #Pagination .pagination a:hover{
+    border:1px solid #1a1a1a;
+}
+.pages #Pagination .pagination a:active{
+    border:1px solid transparent;
+    color:#1a1a1a;
+}
+.pages #Pagination .pagination .current {
+    background: #1a1a1a;border:1px solid transparent;
+    color: #fff;
+}
+.pages #Pagination .pagination .prev,
+.pages #Pagination .pagination .next {
+    float: left;
+    /*width:70px;*/
+
+    /*padding: 8px 13px;*/
+    /*display:inline;*/
+    border: 1px solid #e6e6e6;
+    background: #f6f6f6;
+    color: #666666;
+    cursor: pointer;
+}
+.pages #Pagination .pagination .prev{
+    border: 1px solid #e6e6e6 ;
+    border-right:none !important;
+}
+.pages #Pagination .pagination .prev i,
+.pages #Pagination .pagination .next i {
+    display: inline-block;
+    width: 4px;
+    height: 11px;
+    margin-right: 5px;
+    /*background: url(../images/icon.fw.png) no-repeat;*/
+}
+.pages #Pagination .pagination .prev {
+    border-right: none;
+}
+.pages #Pagination .pagination .prev i {
+    background-position: -144px -1px;
+    *background-position: -144px -4px;
+}
+.pages #Pagination .pagination .next i {
+    background-position: -156px -1px;
+    *background-position: -156px -4px;
+}
+.pages #Pagination .pagination .pagination-break {
+    padding: 8px 5px;
+    border: none;
+    border-left: 1px solid #e6e6e6;
+    background: none;
+    cursor: default;
+}
+.pages .searchPage {
+    float: left;
+    padding: 8px 0;
+    margin-top:-3px;
+    margin-left:37px;
+}
+.pages .searchPage .page-sum {
+    padding: 11px 5px;
+    color: #1a1a1a;
+    font-family: \u5b8b\u4f53,Arial;
+    font-size: 14px;
+}
+.pages .searchPage .page-go {
+    padding: 8px 0;
+    color: #1a1a1a;
+    font-family: \u5b8b\u4f53,Arial;
+    font-size: 14px;
+    padding: 10px 0\9;
+    *padding: 6px 0;
+}
+.pages .searchPage .page-go input {
+    width: 48px;
+    height: 20px;
+    margin: 0 5px;
+    padding-left: 5px;
+    border: 1px solid #1a1a1a;
+    text-align: center;
+}
+.pages .searchPage .page-btn {
+    margin: 9px 0 5px 5px;
+    padding: 6px 12px;
+    background: #fff;
+    border-radius: 2px;
+    color: #1a1a1a;
+    font-family: Arial, 'Microsoft YaHei';
+    font-size: 14px;
+    text-decoration: none;
+    border:1px solid transparent;
+}
+.pages .searchPage .page-btn:hover{
+    border:1px solid #1a1a1a;
+}
+.pages .searchPage .page-btn:active{
+    border:1px solid transparent;
+    background:#1a1a1a;color:#fff;
+}
+.everyPage,.allPage{
+    margin:0 10px;color:#1a1a1a !important;
+}
+.countPage{
+    color:#1a1a1a;padding:0 10px;
+}
+.countPage strong{
+    padding:0 8px;
+}
+.pages #Pagination .pagination .prev:nth-child(1){
+    width:70px;
+}
+ .pages #Pagination .pagination a.next.last:nth-child(1){
+    width:70px !important;display:inline-block !important;
+}
+.pages #Pagination .pagination .last{
+    width:70px !important;
+}
+    /*-------------------------------日期插件------------------------*/
+#create-date{
+    position: absolute;
+    top: 28px;
+    left:20px;font-size:14px;
+}
+.ta_calendar_footer{
+    margin-bottom:10px;
+}
+.ta_calendar_footer .ta_ipt_text_s{
+    height:30px !important;
+}
