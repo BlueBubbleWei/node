@@ -1,0 +1,127 @@
+.userAnalysis{
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 1px 0 6px rgba(0,0,0,0.3);
+}
+.userAnalysis .onlinesituation  .onlineIcon{
+    float: left;
+    display: block;
+    padding-top: 22px;
+    padding-left: 15px;
+}
+.userAnalysis .onlinesituation{ height:80px;background-color:#fff ;padding-left: 60px;padding-top: 20px;}
+.userAnalysis .onlinesituation h1{ float:left;height: 60px;line-height: 60px;font-size: 18px;padding-left: 5px;}
+.userAnalysis .sread{margin-top: 70px!important;padding-left: 45px;font-size: 18px;color: #0066CC;font-weight: bold;display: block;}
+.userAnalysis .sread:hover{text-decoration: underline;transition:text-decoration 0.5s ;}
+.userAnalysis .user{width: 100%;background: #fff;}
+.userAnalysis .chartIcon{width: 100%;padding-left: 0;clear: both;overflow: hidden;display: block;}
+.userAnalysis .leftAll{float: left;width: 13%;padding-right: 33px;height: 100px;margin-right: 0px;}
+.userAnalysis .leftCheck{ float: left;width: 77%;height: 100px;margin-left: 20px;}
+.userAnalysis .checkInfo{float: right;font-size: 15px;width: 100px;}
+.userAnalysis .checkALL{display: block;float:right;}
+.userAnalysis #checkALL{width: 20px;height:20px;border: 2px solid red;outline: none;background: black;color: #fff;margin: 0;}
+.userAnalysis .checkword{padding:0 10px;}
+.userAnalysis .detailgroup{float: left;padding: 0;margin: 0;/*width: 12%;*/  width: 136px;  margin-bottom: 15px;}
+.userAnalysis .checkDetailico{width: 28px;height: 20px;border-radius: 4px;margin: 0 6px;}
+.userAnalysis .checkDetailpublic{display: block;float: left;font-size: 14px;}
+.userAnalysis .psdAll{background-color: #1a1a1a;}
+.userAnalysis .brower{background-color: #5995ed;}
+.userAnalysis .cockpit{background-color: #88929a;}
+.userAnalysis .mobile{background-color: #8c9cff;}
+.userAnalysis .process{background-color: #8d59ed;}
+.userAnalysis .integrate{background-color: #d05c5b;}
+.userAnalysis .iBan{background-color: #65d4fe;}
+.userAnalysis .BC{background-color: #80d3b7;}
+.userAnalysis .calGeneral{background-color: #0dbd37;}
+.userAnalysis .tuJian{background-color: #a18110;}
+.userAnalysis .gangjin{background-color: #c03f18;}
+.userAnalysis .install{background-color: #9bd1e7;}
+.userAnalysis .construct{background-color: #f55423;}
+.userAnalysis .subordate{background-color: #989898;}
+.userAnalysis .special{background-color: #f4ca09;}
+.userAnalysis .node{background-color: #0499e6;}
+.userAnalysis .others{background-color: #8b0707;}
+.userAnalysis .banzhu{background-color: #013fa4;}
+.userAnalysis .banhuitong{background-color: #f3cd67;}
+.userAnalysis #mobliePad{background-color: #7159ED;}
+.userAnalysis #checkuser{width: 100%;height: 500px;margin-bottom: 40px;}
+.userAnalysis #userChart{width: 100%;height: 500px;margin-bottom: 40px;}
+.userAnalysis div.panel{
+    border: none;margin-bottom: 0;width: 100%;
+}
+#userGeneral{width: 100%;border-spacing: 0;}
+.userAnalysis #userGeneral>tbody>tr{
+    height: 60px!important;text-align: right;font-size: 14px;!important;line-height: 45px!important;border: none;
+}
+.userAnalysis #userGeneral>tbody>tr>th{
+    width: 92px!important;
+}
+
+.userAnalysis #userGeneral>tbody>tr:nth-of-type(even) {
+    background-color: #ffffff!important;
+}
+.userAnalysis #userGeneral>tbody tr:nth-of-type(odd) { /*奇数*/
+    background-color: #f5f5f5!important;
+}
+.userAnalysis #userGeneral>tbody>tr:nth-of-type(odd):hover { /*奇数*/
+    background-color: #e5e5e5 !important;
+    transition: background-color 0.5s !important;
+    cursor: pointer;
+}
+.userAnalysis  #userGeneral>tbody>tr:nth-of-type(even):hover{/*偶数*/
+    background-color: #e5e5e5!important;
+    transition:background-color 0.5s!important;
+    cursor: pointer;
+}
+.userAnalysis #userGeneral>tbody>tr .TabLeft {
+    width: 200px !important;
+    text-align: right;
+}
+.userAnalysis #userGeneral>tbody>tr .TabRight {
+    width: 190px !important;
+    padding-right: 90px;
+}
+.userAnalysis .enddate{
+    font-size: 10px;
+    margin: 0;
+    height: 0px;
+    line-height: 2px;
+    color: #808080;
+    font-weight: normal;
+}
+.userAnalysis .chart-show{width: 100%;height: 100px;clear: both;overflow:hidden;}
+.userAnalysis .showButton{width: 100%;height: 30px;}
+.userAnalysis .flowIMg{
+    width: 200px;height: 100%;
+    margin: 0 auto;
+    padding-top: 13px;
+}
+.userAnalysis #ImgChange{margin: 0 auto;}
+.userAnalysis #show-Table{display: none;}
+.userAnalysis .systemTrend-top
+{ width: 100%;height: 50px;background-image: url("../../modules/systemPage/images/border-bottom.png");
+    background-repeat:repeat-x;background-position:bottom;background-size: 100% 2px;}
+.userAnalysis .enddate{font-size: 10px;margin: 0;height: 2px;line-height: 0px;color: #808080;}
+.userAnalysis .usercheck{width: 100%;background-color: #fff;padding-top: 25px;}
+.userAnalysis .chart-click{width:93%;height:36px;clear: both;overflow: hidden;/*margin-bottom: 15px;*/padding-right: 60px;}
+.userAnalysis .click-left{float: left;}
+.userAnalysis .click-right{float: right;margin-top: 3px;}
+.userAnalysis .count-number{float: left; height: 34px;line-height: 34px;padding: 0 30px;font-size: 14px;}
+.userAnalysis .count-number:hover{cursor: pointer;background-color: #aa1019;transition:background-color 0.5s;}
+/*---------------------system general switch button------------------------------------*/
+.userAnalysis .switch-left-down{background: #aa1019;color: #fff;}
+.userAnalysis .switch-left-up{background: #fff;color: #000;}
+.userAnalysis .count-number:nth-of-type(1){
+    border: 1px solid #aa1019;border-right:none;border-top-left-radius: 4px;border-bottom-left-radius: 4px;
+}
+.userAnalysis .count-number:nth-of-type(2){border: 1px solid #aa1019;border-top-right-radius: 4px;border-bottom-right-radius: 4px;}
+.userAnalysis .select-time{
+    float: right;height: 28px;line-height: 28px;padding:0 26px;border: 1px solid #000; border-radius:4px ;
+    background: #000;color: #fff;margin-right: 5px;font-size: 14px;
+}
+.userAnalysis .select-time:hover{ background: #3D3D3D;transition:background-color 0.5s;cursor: pointer;}
+/*---------------------system general switch button------------------------------------*/
+.userAnalysis .switch-right-up{background: #000;}
+.userAnalysis .switch-right-down{background: #3D3D3D;}
+.userAnalysis .chart-click{width: 93%;padding: 10px 60px 0 60px;height:50px; }
+/*.userAnalysis #checkuser{width: 100%;height: 500px;}*/
