@@ -5,13 +5,43 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     $scope.groupProduct=[];//产品名称分组数据
     $scope.groupProductDailyTimes=[];//各产品每日登录次数
     $scope.groupProductNewAppendUser=[];//各产品新增用户
+    $scope.groupProductWithinOnedayData=[];//24小时内各产品登录数
 
-    var colorlist=["#000000","#5995ed","#88929a","#8c9cff","#8d59ed","#d05c5b","#65d4fe","#80d3b7","#7159ED","#0dbd37","#a18110","#c03f18","#9bd1e7","#8b0707","#013fa4","#f3cd67"];
+
     var itemGroupXZ=[];//整体组装数据（打平）
     var itemGroupDL=[];//整体组装数据（打平）
-    var showFlag=true;
-    var todayTime = changeToayFomat(new Date()).getTime();
+    var itemGroupWOD=[];//整体组装数据（打平）
+    var onlineUsers=[];//当前在线人数
+    var dailyMaxUsers=[];//每日最大人数
+    var todayCountLogin=[];//今日累计登录
+    var yesterdayCountLogin=[];//昨日累计登录
+    var tableHeadDatas=[];//表头数组数据
+    var onlyTableDatas=[[],[],[],[]];//在线图标展示数据
+    var showFlag=true;//用户概况切换标识
+    var colorlist=[];//颜色配置
+    var LegendData=[];//数据项配置
+    var LegendSelected={};//默认选中项
+    var BTime;
+    var ETime;
 
+    var todayTime = changeToayFomat(new Date()).getTime();
+    var dailymax='';
+    $('.flowIMg').click(function () {
+        if($('#show-Table').css('display')=='block'){
+            $('#show-Table').css('display','none');
+            $('#ImgChange').attr('src','systemPage/images/close.png');
+        }else{
+            $('#show-Table').css('display','block');
+            $('#ImgChange').attr('src','systemPage/images/open.png');
+        }
+    });
+    $('.flowIMg').hover(function () {
+        if($('#show-Table').css('display')=='block') {
+            $('#ImgChange').attr('src', 'systemPage/images/hoverClose.png');
+        }else{
+            $('#ImgChange').attr('src','systemPage/images/hoverOpen.png');
+        }
+    })
     /**
      * 获取公用数据
      * 分组产品名称+id
@@ -33,7 +63,6 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             httpUrl:"analysis/loginlog/daily/user/logintimes",
             success:function(data){
                 $scope.groupProductDailyTimes = data.dailytimes;
-                console.log($scope.groupProductDailyTimes)
             }
         });
         getUserGeneralSituationDLAllDatas();
@@ -58,14 +87,14 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     /**
      * 获取在线用户和单日最高登录人数
      */
-    function getOnlyAndDailyMaxUsers(){
+    function getOnlineAndDailyMaxUsers(){
         commonService.runAjaxJson({//在线用户
             type:'get',
             dataType:'json',
             async:false,
-            httpUrl:"analysis/loginlog/daily/user/inclement",
+            httpUrl:"analysis/online/user_current",
             success:function(data){
-                console.log(data);
+                $scope.onlineUsers = data.online;
             }
         });
         commonService.runAjaxJson({//单日最高登录人数
@@ -74,7 +103,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             async:false,
             httpUrl:"analysis/loginlog/daily/user/max/"+dailymax,
             success:function(data){
-                console.log(data);
+                $scope.dailyMaxUsers=data.data;
             }
         });
     }
@@ -90,9 +119,60 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             httpUrl:"analysis/online/user",
             success:function(data){
                 console.log(data);
+                $scope.groupProductWithinOnedayData= data.online;
             }
         });
+        getWithinOnedayAllDatas();
     }
+
+    /**
+     * 24小时现在情况整体组装数据（打平）
+     */
+    function getWithinOnedayAllDatas(){
+        for(var i=0;i<$scope.groupProduct.length;i++) {
+            var itemCountGroup = [];
+            for (var j = 0; j < $scope.groupProduct[i].groupList.length; j++) {
+
+                var productID = $scope.groupProduct[i].groupList[j].productId;
+                var itemName = $scope.groupProduct[i].groupList[j].productName;
+                var itemData = [];
+                for (var n = 0; n < $scope.groupProductWithinOnedayData.length; n++) {
+                    var item = $scope.groupProductWithinOnedayData[n];
+                    if(item.length!=0){
+                        BTime = item.data[0].time;
+                        ETime = item.data[item.data.length-1].time;
+                        if (productID == item.productId) {
+                            for(var m = 0;m<item.data.length;m++){
+                                itemData.push(item.data[m].users)
+                            }
+                            break;
+                        }
+                    }else{
+                        ETime = changeToYesterDayMinuteDate(new Date())
+                        BTime = new Date(ETime.getDate()-1);
+                    }
+
+                }
+                if (itemData.length == 0) {
+                    for (var q=0; q < 1440; q++) {
+                        itemData.push(0);
+                    }
+                }
+                itemGroupWOD.push({"name": itemName, "data": itemData})
+                itemCountGroup.push({"data": itemData})
+            }
+            var itemGroupData = [];
+            for (var a = 0; a < itemCountGroup[0].data.length; a++) {
+                var itemCount = 0;
+                for (var b = 0; b < itemCountGroup.length; b++) {//直接统计组数据
+                    itemCount = itemCount + parseInt(itemCountGroup[b].data[a]);
+                }
+                itemGroupData.push(itemCount);
+            }
+            itemGroupWOD.push({'name': $scope.groupProduct[i].groupName, 'data': itemGroupData});
+        }
+    }
+
 
 
     /**
@@ -104,10 +184,14 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
         for(var i=0;i<$scope.groupProduct.length;i++) {
             var itemCountGroup = [];
             for (var j = 0; j < $scope.groupProduct[i].groupList.length; j++) {
+                if(i==$scope.groupProduct.length-1 && j==$scope.groupProduct[i].groupList[j]-1){
+                    dailymax+=$scope.groupProduct[i].groupList[j].productId;
+                }else{
+                    dailymax+=$scope.groupProduct[i].groupList[j].productId+',';
+                };
                 var productID = $scope.groupProduct[i].groupList[j].productId;
                 var itemName = $scope.groupProduct[i].groupList[j].productName;
                 var itemData = [];
-                debugger;
                 for (var n = 0; n < $scope.groupProductDailyTimes.length; n++) {
                     var item = $scope.groupProductDailyTimes[n];
                     if (productID == item.productId) {
@@ -145,6 +229,8 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
                 }
                 itemGroupDL.push({"name": itemName, "data": itemData})
                 itemCountGroup.push({"data": itemData})
+                todayCountLogin.push({"productId":productID,"count":itemData.slice(itemData.length-3,itemData.length-2)})
+                yesterdayCountLogin.push({"productId":productID,"count":itemData.slice(itemData.length-2,itemData.length-1)})
             }
             var itemGroupData = [];
             for (var a = 0; a < itemCountGroup[0].data.length; a++) {
@@ -154,15 +240,10 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
                 }
                 itemGroupData.push(itemCount);
             }
-            itemGroupDL.push({'name': $scope.groupProduct[i].groupName, 'data': itemGroupData})
+            itemGroupDL.push({'name': $scope.groupProduct[i].groupName, 'data': itemGroupData});
         }
+        dailymax=base64Encode(dailymax);
     }
-
-
-
-
-
-
 
     /**
      * 新增用户数整体组装数据（打平）
@@ -227,6 +308,143 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     }
 
     /**
+     * 组装在线图表数据
+     */
+    function initOnlineTableDatas(){
+        for(var i=0;i<$scope.groupProduct.length;i++) {
+            tableHeadDatas.push($scope.groupProduct[i].groupName)
+            for (var j = 0; j < $scope.groupProduct[i].groupList.length; j++) {
+                tableHeadDatas.push( $scope.groupProduct[i].groupList[j].productName)
+                var productID = $scope.groupProduct[i].groupList[j].productId;
+                var existOnlineItemFlag = true;//判断该产品是否存在
+                for (var n = 0; n < $scope.onlineUsers.length; n++) {
+                    var item = $scope.onlineUsers[n];
+                    if (productID == item.productId) {
+                        existOnlineItemFlag = false;
+                        onlineUsers.push({"productId":productID,"count":item.data[0].users})
+                        break;
+                    }
+                }
+                if(existOnlineItemFlag){
+                    onlineUsers.push({"productId":productID,"count":0})
+                }
+                var existMaxItemFlag = true;//判断该产品是否存在
+                for (var n = 0; n < $scope.dailyMaxUsers.length; n++) {
+                    var item = $scope.dailyMaxUsers[n];
+                    if (productID == item.productId) {
+                        existMaxItemFlag = false
+                        dailyMaxUsers.push({"productId":productID,"count":item.max,"date":unix2normal(item.date)})
+                        break;
+                    }
+                }
+                if(existMaxItemFlag){
+                    dailyMaxUsers.push({"productId":productID,"count":0,"date":""})
+                }
+            }
+        }
+        var startIndex = 0
+        var endIndex = $scope.groupProduct[0].groupList.length
+        for(var i=0;i<$scope.groupProduct.length;i++) {
+            if(i!=0){
+                startIndex = endIndex;
+                endIndex = $scope.groupProduct[i].groupList.length + endIndex
+            }
+            var si = startIndex;
+            var todayCountLoginGroup=0;
+            var yesterdayCountLoginGroup=0;
+            var onlineUsersCountGroup=0;
+            for(si;si<endIndex;si++) {
+                todayCountLoginGroup = todayCountLoginGroup + parseInt(todayCountLogin[si].count)
+                yesterdayCountLoginGroup = yesterdayCountLoginGroup +parseInt(yesterdayCountLogin[si].count)
+                onlineUsersCountGroup = onlineUsersCountGroup + parseInt(onlineUsers[si].count)
+            }
+            onlyTableDatas[0].push(todayCountLoginGroup);
+            onlyTableDatas[1].push(yesterdayCountLoginGroup);
+            onlyTableDatas[2].push(onlineUsersCountGroup);
+            onlyTableDatas[3].push("");
+            for(startIndex;startIndex<endIndex;startIndex++) {
+                onlyTableDatas[0].push(parseInt(todayCountLogin[startIndex].count));
+                onlyTableDatas[1].push(parseInt(yesterdayCountLogin[startIndex].count));
+                onlyTableDatas[2].push(parseInt(onlineUsers[startIndex].count));
+                onlyTableDatas[3].push(parseInt(dailyMaxUsers[startIndex].count)+"$"+dailyMaxUsers[startIndex].date);
+            }
+        }
+    }
+
+    /**
+     * 绘制在线table
+     */
+    function drawOnlineTable(){
+        var html="<tr><th class='TabLeft'></th>";
+        for(var i=0;i<tableHeadDatas.length;i++){
+            html+="<th>"+tableHeadDatas[i]+"</th>";
+        }
+        html+="</tr>";
+
+        for(var i=0;i<onlyTableDatas.length;i++){
+            if(i==0){
+                html+="<tr><th class='TabLeft'>当前在线人数</th><th>";
+                for(var j=0;j<onlyTableDatas[i].length;j++){
+                    if(j==onlyTableDatas[i].length-1){
+                        html+=onlyTableDatas[i][j]+"</th>"
+                    }else{
+                        html+=onlyTableDatas[i][j]+"</th><th>"
+                    }
+                }
+                html+="</tr>";
+            }else if(i==1){
+                html+="<tr><th class='TabLeft'>今日累计登录</th><th>";
+                for(var j=0;j<onlyTableDatas[i].length;j++){
+                    if(j==onlyTableDatas[i].length-1){
+                        html+=onlyTableDatas[i][j]+"</th>"
+                    }else{
+                        html+=onlyTableDatas[i][j]+"</th><th>"
+                    }
+                }
+                html+="</tr>"
+            }else if(i==2){
+                html+="<tr><th class='TabLeft'>昨日累计登录</th><th>";
+                for(var j=0;j<onlyTableDatas[i].length;j++){
+                    if(j==onlyTableDatas[i].length-1){
+                        html+=onlyTableDatas[i][j]+"</th>"
+                    }else{
+                        html+=onlyTableDatas[i][j]+"</th><th>"
+                    }
+                }
+                html+="</tr>";
+            }else if(i==onlyTableDatas.length-1){
+                html+="<tr><th class='TabLeft'>单日登录最高</th><th>";
+                for(var k=0;k<onlyTableDatas[i].length;k++){
+                    if(onlyTableDatas[i][k].length!=0){
+                        var max=onlyTableDatas[i][k].split('$')[0];
+                        var date=onlyTableDatas[i][k].split('$')[1];
+                        if(max.length == 0 ){
+                            html+="</th><th>";
+                        }else{
+                            if(date.length==0){
+                                date='--';
+                            }else{
+                                date=date;
+                            }
+                            if(k==onlyTableDatas[i].length-1){
+                                html+=max+"<p class='enddate'>"+date+"</p></th>";
+                            }else{
+                                html+=max+"<p class='enddate'>"+date+"</p></th><th>";
+                            }
+                        }
+                    }else{
+                        html+="</th><th>";
+                    }
+                }
+                html+="</tr>";
+            }
+        }
+        var template=angular.element(html);
+        var templateHtml = $compile(html)($scope);
+        angular.element(document.getElementById('userGeneral')).append(templateHtml);
+    }
+
+    /**
      * 日期格式化
      * @param date
      */
@@ -243,33 +461,31 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
      * 获取展示legendData;
      * @returns {Array}
      */
-    function getSituationLegendData(){
-        var legendData=[];
+    function getColorListsAndSituationLegendData(){
         for(var i=0;i<$scope.groupProduct.length;i++){
-            legendData.push({name:$scope.groupProduct[i].groupName,icon:'roundRect'});
+            colorlist.push($scope.groupProduct[i].groupColor);
+            LegendData.push({name:$scope.groupProduct[i].groupName,icon:'roundRect'});
             for(var j=0;j<$scope.groupProduct[i].groupList.length;j++){
-                legendData.push({name:$scope.groupProduct[i].groupList[j].productName,icon:'roundRect'})
+                colorlist.push($scope.groupProduct[i].groupList[j].productColor);
+                LegendData.push({name:$scope.groupProduct[i].groupList[j].productName,icon:'roundRect'})
             }
-            legendData.push('')
+            LegendData.push('')
         }
-        return legendData;
     }
 
     /**
      * 设置默认隐藏样式
      */
     function getSituationLegendSelected(){
-        var LegendSelected={};
         for(var i=0;i<$scope.groupProduct.length;i++){
             for(var j=0;j<$scope.groupProduct[i].groupList.length;j++){
                 LegendSelected[$scope.groupProduct[i].groupList[j].productName]=false;
             }
         }
-        return LegendSelected;
     }
 
     /**
-     * 用户概况需要展示的数据
+     * 用户概况需要展示的X轴数据
      */
     function getXAxisData(timetype){
         var startTime = new Date("2010/01/01 00:00:00").getTime();
@@ -289,6 +505,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             var thisDate = new Date(startTime);
             xAxisData.push(change2Stdtime(thisDate))
         }
+        console.log(xAxisData+'xAxisData')
         return xAxisData;
     }
 
@@ -331,33 +548,13 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     }
 
     /**
-     * 新增用户
-     */
-    $("#usercount").click(function(){
-        showFlag = true;
-        drowUserGeneralSituation(showFlag,0)
-    })
-    /**
-     * 每日登录
-     */
-    $("#downloadingcount").click(function(){
-        showFlag = false;
-        drowUserGeneralSituation(showFlag,0)
-    })
-
-    $scope.changShowTime = function(tiemtype){
-        drowUserGeneralSituation(showFlag,tiemtype)
-    };
-
-    /**
      *   用户概况
      */
-    function drowUserGeneralSituation(showtype,timetype){
-        var legendData=getSituationLegendData();
-        var legendSelected=getSituationLegendSelected();
+    function drawUserGeneralSituation(showtype,timetype){
+        var legendData=LegendData;
+        var legendSelected=LegendSelected;
         var xAxisData=getXAxisData(timetype);
         var seriesDatas=getSituationSeries(showtype,timetype);
-        debugger;
         var waveChart = echarts.init(document.getElementById('checkuser'));
         var option= {
             color:colorlist,
@@ -422,9 +619,155 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
         waveChart.setOption(option);
     }
 
+    /**
+     * 24小时咱先监控X轴数据
+     */
+
+    function getSpyXAxisData(){
+        var SpyXAxisData=[];
+        console.log(BTime+'BTime')
+        BTime=new Date(BTime).getTime();
+        ETime=new Date(ETime).getTime()
+        for(BTime;BTime<ETime;BTime += 60*10000){
+            BTime=change2Stdtime(BTime);
+            SpyXAxisData.push(BTime);
+        }
+        return SpyXAxisData;
+    }
+
+    /**
+     *  获取24小时在线数据
+     */
+    function getSpySeries(){
+        var series=[];
+        for(var i=0;i<itemGroupWOD.length;i++){
+            console.log(itemGroupWOD[i].name+'itemGroupWOD[i].name')
+            console.log(itemGroupWOD[i].data+'itemGroupWOD[i].data')
+            var serie= {
+                name:itemGroupWOD[i].name,
+                type: 'line',
+                showSymbol: false,
+                hoverAnimation: false,
+                data:itemGroupWOD[i].data
+            }
+            series.push(serie);
+        }
+        console.log(JSON.stringify(series)+'series')
+        return series;
+    }
+
+    /**
+     *  在线状况实时监控
+     */
+    function drawWithinOnedayCharts(){
+        var legendData=LegendData;
+        var legendSelected=LegendSelected;
+        var xAxisData=getSpyXAxisData();
+        var spyeriesDatas=getSpySeries();
+        console.log(JSON.stringify(spyeriesDatas)+'spyeriesDatas')
+        var onLineChart = echarts.init(document.getElementById('userChart'));
+        option = {
+            color:colorlist,
+            legend: {
+                selected:legendSelected,
+                borderWidth: 0,            // 图例边框线宽，单位px，默认为0（无边框）
+                itemGap: 15,               // 各个item之间的间隔，单位px，默认为10，
+                itemWidth: 30,             // 图例图形宽度
+                itemHeight: 14,
+                textStyle: {
+                    width:50,
+                    color: '#333'          // 图例文字颜色
+                },
+                bottom:0,
+                data:legendData
+            },
+            grid: {
+                left: '5%',
+                right: '5%',
+                bottom: '20%',
+                containLabel: true,
+                textStyle: {
+                    color: '#333',
+                    fontSize: '14'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    console.log(params);
+                    params = params[0];
+                    var date = new Date();
+                    return date.getHours()+ ' : '+date.getMinutes()+' ' + params.value;
+                },
+                axisPointer:{
+                    type: 'line',
+                    lineStyle: {
+                        color: '#aa1019',
+                        width: 2,
+                        type: 'solid'
+                    }
+                },
+                position: function (pt) {
+                    return [pt[0], '5%'];
+                }
+            },
+            xAxis: {
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                data: xAxisData
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: false
+                }
+            },
+            series:spyeriesDatas
+        };
+        onLineChart.setOption(option);
+    }
+
+
+
+
+
+
+    /**
+     * 新增用户
+     */
+    $("#usercount").click(function(){
+        showFlag = true;
+        drawUserGeneralSituation(showFlag,0)
+    })
+    /**
+     * 每日登录
+     */
+    $("#downloadingcount").click(function(){
+        showFlag = false;
+        drawUserGeneralSituation(showFlag,0)
+    })
+    /**
+     * 切换日期
+     * @param tiemtype
+     */
+    $scope.changShowTime = function(tiemtype){
+        drowUserGeneralSituation(showFlag,tiemtype)
+    };
+
+
     getPublicData();
     getNewAppendUser();
-    drowUserGeneralSituation(true,0);
+    getColorListsAndSituationLegendData();
+    getSituationLegendSelected();
+    drawUserGeneralSituation(true,0);
+    getOnlineAndDailyMaxUsers();
+    initOnlineTableDatas();
+    drawOnlineTable();
+    getWithinOneday();
+    drawWithinOnedayCharts();
+
 
 });
 

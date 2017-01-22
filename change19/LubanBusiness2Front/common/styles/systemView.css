@@ -111,7 +111,7 @@
 .system-view .system-titl{width:100%;/*;height: 102px;*/clear: both;overflow: hidden;/*padding-top: 50px;*/padding-left: 61px;height: 87px;padding-top: 36px;}
 .system-view .titl-img{float: left;padding-right: 5px;padding-top: 5px;}
 .system-view .titl-word{float: left;font-size: 18px;font-weight: bold}
-.system-view .chart-click{width:93%;height:50px;clear: both;overflow: hidden;/*margin-bottom: 15px;*/padding-right: 60px;}
+.system-view .chart-click{width:100%;height:50px;clear: both;overflow: hidden;/*margin-bottom: 15px;*/padding-right: 60px;}
 .system-view .click-left{float: left;}
 .system-view .click-right{float: right;margin-top: 3px;}
 .count-number{float: left; height: 34px;line-height: 34px;padding: 0 30px;font-size: 14px;}
@@ -162,7 +162,7 @@
 .system-view #banzhu{background-color: #013fa4;}
 .system-view #banhuitong{background-color: #f3cd67;}
 .system-view #mobliePad{background-color: #7159ED;}
-.system-view .wavechart{width: 93%;height: 520px;margin-bottom: 40px;}
+.system-view .wavechart{width: 100%;height: 520px;margin-bottom: 40px;}
 .system-view .Type-tit{font-weight: bold;}
 .system-view .pdsIcon{float: left;width: 100%;}
 .grayColor{background-color: #BCBCBC;}

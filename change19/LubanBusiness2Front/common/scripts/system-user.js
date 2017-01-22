@@ -4,11 +4,6 @@
 var yestoday= new Date();
 yestoday=changeDate(yestoday);
 var timestamp = Date.parse(yestoday);
-var arry=[2,11,29,23,27,13,33,28,3,2,5,30];
-//所需产品ID
-var dailymax='2,11,29,23,27,13,33,28,3,2,5,30';
-var pids= base64Encode(arry);
-dailymax= base64Encode(dailymax);
 function changeMonth(day) {
     // 时间为近一个月的0:0:0的unix timestamp
     day.setMonth(day.getMonth()-1);
@@ -50,6 +45,17 @@ function changeDate(day) {
     day.setMilliseconds(0);
     return day
 }
+
+function changeToYesterDayMinuteDate(day) {
+    // 时间为前一天的0:0:0的unix timestamp
+    day.setDate(day.getDate()-1);
+    day.setHours(day.getHours());
+    day.setMinutes(day.getMinutes());
+    day.setSeconds(0);
+    day.setMilliseconds(0);
+    return day
+}
+
 function changeToayFomat(day) {
     // 时间为前一天的0:0:0的unix timestamp
     day.setHours(0);
@@ -60,17 +66,6 @@ function changeToayFomat(day) {
 }
 //排序
 function sortId(unsorted) {
-  /*  var idList = [[12, 11, 29, 23, 27, 13, 33, 28], [3, 2, 5], [30]];
-    var sorted = [];
-    for (var i = 0; i < idList.length; i++) {
-        for (var j = 0; j < idList[i].length; j++) {
-            for (var k = 0; k < unsorted.length; k++) {
-                if (idList[i][j] == unsorted[k].productId) {
-                    sorted.push(unsorted[k]);
-                }
-            }
-        }
-    }*/
     return unsorted;
 }
 function unix2normal(date) {
