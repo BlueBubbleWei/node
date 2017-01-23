@@ -6,7 +6,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     $scope.groupProductDailyTimes=[];//各产品每日登录次数
     $scope.groupProductNewAppendUser=[];//各产品新增用户
     $scope.groupProductWithinOnedayData=[];//24小时内各产品登录数
-
+    $scope.groupProductNowOnlineData=[];//该时刻各产品登录数
 
     var itemGroupXZ=[];//整体组装数据（打平）
     var itemGroupDL=[];//整体组装数据（打平）
@@ -21,27 +21,16 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     var colorlist=[];//颜色配置
     var LegendData=[];//数据项配置
     var LegendSelected={};//默认选中项
-    var BTime;
-    var ETime;
+    var series=[];//在线监控数据对象
+    var onlineDataGroup=[];//在线数据组装
+    var onLineChart;//在线状况实时监控
+    var onlineTableDataGroup=[];//在线图表数据组装
+
+
 
     var todayTime = changeToayFomat(new Date()).getTime();
     var dailymax='';
-    $('.flowIMg').click(function () {
-        if($('#show-Table').css('display')=='block'){
-            $('#show-Table').css('display','none');
-            $('#ImgChange').attr('src','systemPage/images/close.png');
-        }else{
-            $('#show-Table').css('display','block');
-            $('#ImgChange').attr('src','systemPage/images/open.png');
-        }
-    });
-    $('.flowIMg').hover(function () {
-        if($('#show-Table').css('display')=='block') {
-            $('#ImgChange').attr('src', 'systemPage/images/hoverClose.png');
-        }else{
-            $('#ImgChange').attr('src','systemPage/images/hoverOpen.png');
-        }
-    })
+
     /**
      * 获取公用数据
      * 分组产品名称+id
@@ -118,12 +107,29 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             async:false,
             httpUrl:"analysis/online/user",
             success:function(data){
-                console.log(data);
                 $scope.groupProductWithinOnedayData= data.online;
+                console.log($scope.groupProductWithinOnedayData);
             }
         });
         getWithinOnedayAllDatas();
     }
+
+    /**
+     * 获取实时在线用户数
+     */
+    function getNowOnlineUsers(){
+        commonService.runAjaxJson({//在线用户
+            type:'get',
+            dataType:'json',
+            async:false,
+            httpUrl:"analysis/online/user_current",
+            success:function(data){
+                $scope.groupProductNowOnlineData= data.online;
+                console.log($scope.groupProductNowOnlineData)
+            }
+        });
+    }
+
 
     /**
      * 24小时现在情况整体组装数据（打平）
@@ -132,30 +138,21 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
         for(var i=0;i<$scope.groupProduct.length;i++) {
             var itemCountGroup = [];
             for (var j = 0; j < $scope.groupProduct[i].groupList.length; j++) {
-
                 var productID = $scope.groupProduct[i].groupList[j].productId;
                 var itemName = $scope.groupProduct[i].groupList[j].productName;
                 var itemData = [];
                 for (var n = 0; n < $scope.groupProductWithinOnedayData.length; n++) {
                     var item = $scope.groupProductWithinOnedayData[n];
-                    if(item.length!=0){
-                        BTime = item.data[0].time;
-                        ETime = item.data[item.data.length-1].time;
-                        if (productID == item.productId) {
-                            for(var m = 0;m<item.data.length;m++){
-                                itemData.push(item.data[m].users)
-                            }
-                            break;
+                    if (productID == item.productId) {
+                        for(var m = 0;m<item.data.length;m++){
+                            itemData.push([new Date(item.data[m].time),parseInt(item.data[m].users)])
                         }
-                    }else{
-                        ETime = changeToYesterDayMinuteDate(new Date())
-                        BTime = new Date(ETime.getDate()-1);
+                        break;
                     }
-
                 }
                 if (itemData.length == 0) {
-                    for (var q=0; q < 1440; q++) {
-                        itemData.push(0);
+                    for (var q=0; q < $scope.groupProductWithinOnedayData[0].data.length; q++) {
+                        itemData.push([new Date($scope.groupProductWithinOnedayData[0].data[q].time),parseInt(0)]);
                     }
                 }
                 itemGroupWOD.push({"name": itemName, "data": itemData})
@@ -165,20 +162,18 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             for (var a = 0; a < itemCountGroup[0].data.length; a++) {
                 var itemCount = 0;
                 for (var b = 0; b < itemCountGroup.length; b++) {//直接统计组数据
-                    itemCount = itemCount + parseInt(itemCountGroup[b].data[a]);
+                    itemCount = itemCount + parseInt(itemCountGroup[b].data[a][1]);
                 }
-                itemGroupData.push(itemCount);
+                itemGroupData.push([new Date(itemCountGroup[0].data[a][0]),itemCount]);
             }
             itemGroupWOD.push({'name': $scope.groupProduct[i].groupName, 'data': itemGroupData});
         }
     }
 
-
-
     /**
      * 每日登录数整体组装数据（打平）
      */
-    function getUserGeneralSituationDLAllDatas(){
+    function  getUserGeneralSituationDLAllDatas(){
         var startTime = new Date("2010/01/01 00:00:00").getTime();
         var endTime = changeToayFomat(new Date()).getTime();
         for(var i=0;i<$scope.groupProduct.length;i++) {
@@ -229,7 +224,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
                 }
                 itemGroupDL.push({"name": itemName, "data": itemData})
                 itemCountGroup.push({"data": itemData})
-                todayCountLogin.push({"productId":productID,"count":itemData.slice(itemData.length-3,itemData.length-2)})
+                todayCountLogin.push({"productId":productID,"count":itemData.slice(itemData.length-1,itemData.length)})
                 yesterdayCountLogin.push({"productId":productID,"count":itemData.slice(itemData.length-2,itemData.length-1)})
             }
             var itemGroupData = [];
@@ -358,14 +353,14 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
                 yesterdayCountLoginGroup = yesterdayCountLoginGroup +parseInt(yesterdayCountLogin[si].count)
                 onlineUsersCountGroup = onlineUsersCountGroup + parseInt(onlineUsers[si].count)
             }
-            onlyTableDatas[0].push(todayCountLoginGroup);
-            onlyTableDatas[1].push(yesterdayCountLoginGroup);
-            onlyTableDatas[2].push(onlineUsersCountGroup);
+            onlyTableDatas[0].push(onlineUsersCountGroup);
+            onlyTableDatas[1].push(todayCountLoginGroup);
+            onlyTableDatas[2].push(yesterdayCountLoginGroup);
             onlyTableDatas[3].push("");
             for(startIndex;startIndex<endIndex;startIndex++) {
-                onlyTableDatas[0].push(parseInt(todayCountLogin[startIndex].count));
-                onlyTableDatas[1].push(parseInt(yesterdayCountLogin[startIndex].count));
-                onlyTableDatas[2].push(parseInt(onlineUsers[startIndex].count));
+                onlyTableDatas[0].push(parseInt(onlineUsers[startIndex].count));
+                onlyTableDatas[1].push(parseInt(todayCountLogin[startIndex].count));
+                onlyTableDatas[2].push(parseInt(yesterdayCountLogin[startIndex].count));
                 onlyTableDatas[3].push(parseInt(dailyMaxUsers[startIndex].count)+"$"+dailyMaxUsers[startIndex].date);
             }
         }
@@ -383,7 +378,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
 
         for(var i=0;i<onlyTableDatas.length;i++){
             if(i==0){
-                html+="<tr><th class='TabLeft'>当前在线人数</th><th>";
+                html+="<tr id=''><th class='TabLeft'>当前在线人数</th><th>";
                 for(var j=0;j<onlyTableDatas[i].length;j++){
                     if(j==onlyTableDatas[i].length-1){
                         html+=onlyTableDatas[i][j]+"</th>"
@@ -490,22 +485,22 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     function getXAxisData(timetype){
         var startTime = new Date("2010/01/01 00:00:00").getTime();
         if(timetype==0){
-            startTime = todayTime - 30*24*60*60*1000
+            startTime = todayTime - 30*24*60*60*1000+1*24*60*60*1000
         }else if(timetype==1){
-            startTime = todayTime - 90*24*60*60*1000
+            startTime = todayTime - 90*24*60*60*1000+1*24*60*60*1000
             sliceNum = 90
         }else if(timetype==2){
-            startTime = todayTime - 365*24*60*60*1000
+            startTime = todayTime - 365*24*60*60*1000+1*24*60*60*1000
         }else if(timetype==3){
-            startTime = todayTime - 365*3*24*60*60*1000
+            startTime = todayTime - 365*3*24*60*60*1000+1*24*60*60*1000
         }
         var xAxisData=[];
         var endTime = todayTime;
-        for(startTime;startTime<endTime;startTime+=24*60*60*1000){
+        for(startTime;startTime<=endTime;startTime+=24*60*60*1000){
             var thisDate = new Date(startTime);
             xAxisData.push(change2Stdtime(thisDate))
         }
-        console.log(xAxisData+'xAxisData')
+        console.log(xAxisData.length);
         return xAxisData;
     }
 
@@ -518,7 +513,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     function getSituationSeries(showtype,timetype){
         var seriesDatas=[];
         var showItemGroup = itemGroupXZ;
-        var sliceNum = 0
+        var sliceNum = 0;
         if(!showtype){
             showItemGroup = itemGroupDL;
         }
@@ -620,29 +615,10 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     }
 
     /**
-     * 24小时咱先监控X轴数据
-     */
-
-    function getSpyXAxisData(){
-        var SpyXAxisData=[];
-        console.log(BTime+'BTime')
-        BTime=new Date(BTime).getTime();
-        ETime=new Date(ETime).getTime()
-        for(BTime;BTime<ETime;BTime += 60*10000){
-            BTime=change2Stdtime(BTime);
-            SpyXAxisData.push(BTime);
-        }
-        return SpyXAxisData;
-    }
-
-    /**
      *  获取24小时在线数据
      */
     function getSpySeries(){
-        var series=[];
         for(var i=0;i<itemGroupWOD.length;i++){
-            console.log(itemGroupWOD[i].name+'itemGroupWOD[i].name')
-            console.log(itemGroupWOD[i].data+'itemGroupWOD[i].data')
             var serie= {
                 name:itemGroupWOD[i].name,
                 type: 'line',
@@ -652,9 +628,55 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             }
             series.push(serie);
         }
-        console.log(JSON.stringify(series)+'series')
-        return series;
     }
+
+    /**
+     * 处理在线数据
+     */
+    function getOnlieUsersDatas(){
+        onlineDataGroup=[];
+        for(var i=0;i<$scope.groupProduct.length;i++) {
+            for (var j = 0; j < $scope.groupProduct[i].groupList.length; j++) {
+                var onlineGroupCount=[];
+                var productID = $scope.groupProduct[i].groupList[j].productId;
+                var thisDate = $scope.groupProductNowOnlineData[0].data[0].time
+                var existOnlineItemFlag = true;//判断该产品是否存在
+                for (var n = 0; n < $scope.groupProductNowOnlineData.length; n++) {
+                    var item = $scope.groupProductNowOnlineData[n];
+                    if (productID == item.productId) {
+                        existOnlineItemFlag = false;
+                        onlineDataGroup.push([new Date(item.data[0].time),item.data[0].users])
+
+                        onlineGroupCount.push(item.data[0].users);
+                        break;
+                    }
+                }
+                if(existOnlineItemFlag){
+                    onlineDataGroup.push([new Date(thisDate),0])
+                    onlineGroupCount.push(0);
+                }
+            }
+            var onlineDataGroupCount=0;
+            for(var a=0 ;a<onlineGroupCount.length;a++){
+                onlineDataGroupCount = onlineDataGroupCount+parseInt(onlineGroupCount[a])
+            }
+            onlineDataGroup.push([new Date(item.data[0].time),onlineDataGroupCount]);
+        }
+    }
+
+    /**
+     * 追加监控数据
+     */
+    function appendSpySeries(){
+        for(var i=0;i<onlineDataGroup.length;i++){
+            series[i].data.shift();
+            series[i].data.push(onlineDataGroup[i]);
+        }
+        onLineChart.setOption({
+            series:series
+        })
+    }
+
 
     /**
      *  在线状况实时监控
@@ -662,10 +684,8 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     function drawWithinOnedayCharts(){
         var legendData=LegendData;
         var legendSelected=LegendSelected;
-        var xAxisData=getSpyXAxisData();
-        var spyeriesDatas=getSpySeries();
-        console.log(JSON.stringify(spyeriesDatas)+'spyeriesDatas')
-        var onLineChart = echarts.init(document.getElementById('userChart'));
+        var spyeriesDatas=series;
+        onLineChart = echarts.init(document.getElementById('userChart'));
         option = {
             color:colorlist,
             legend: {
@@ -684,7 +704,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             grid: {
                 left: '5%',
                 right: '5%',
-                bottom: '20%',
+                bottom: '40%',
                 containLabel: true,
                 textStyle: {
                     color: '#333',
@@ -693,12 +713,6 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: function (params) {
-                    console.log(params);
-                    params = params[0];
-                    var date = new Date();
-                    return date.getHours()+ ' : '+date.getMinutes()+' ' + params.value;
-                },
                 axisPointer:{
                     type: 'line',
                     lineStyle: {
@@ -712,10 +726,18 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
                 }
             },
             xAxis: {
-                name:'时间',
-                type: 'category',
-                boundaryGap: false,
-                data: xAxisData
+                type: 'time',
+                splitLine: {
+                    show: false
+                },
+                axisLabel:{
+                    formatter: function (value, index) {
+                        // 格式化成月/日，只在第一个刻度显示年份
+                        var date = new Date(value);
+                        return ((date.getHours()<10)?('0'+date.getHours()):date.getHours())+':'+((date.getMinutes()<10)?('0'+date.getMinutes()):date.getMinutes());//改变x轴坐标显示
+
+                    }
+                }
             },
             yAxis: {
                 type: 'value',
@@ -729,10 +751,28 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
         onLineChart.setOption(option);
     }
 
-
-
-
-
+    /**
+     * 表格箭头click事件
+     */
+    $('.flowIMg').click(function () {
+        if($('#show-Table').css('display')=='block'){
+            $('#show-Table').css('display','none');
+            $('#ImgChange').attr('src','systemPage/images/close.png');
+        }else{
+            $('#show-Table').css('display','block');
+            $('#ImgChange').attr('src','systemPage/images/open.png');
+        }
+    });
+    /**
+     * 表格箭头hover事件
+     */
+    $('.flowIMg').hover(function () {
+        if($('#show-Table').css('display')=='block') {
+            $('#ImgChange').attr('src', 'systemPage/images/hoverClose.png');
+        }else{
+            $('#ImgChange').attr('src','systemPage/images/hoverOpen.png');
+        }
+    });
 
     /**
      * 新增用户
@@ -753,7 +793,7 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
      * @param tiemtype
      */
     $scope.changShowTime = function(tiemtype){
-        drowUserGeneralSituation(showFlag,tiemtype)
+        drawUserGeneralSituation(showFlag,tiemtype)
     };
 
 
@@ -766,8 +806,16 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
     initOnlineTableDatas();
     drawOnlineTable();
     getWithinOneday();
+    getSpySeries();
     drawWithinOnedayCharts();
 
+    setInterval(function () {
+        getNowOnlineUsers();
+        getOnlieUsersDatas();
+        appendSpySeries();
+        console.log("在线用户请求")
+
+    }, 60*1000);
 
 });
 

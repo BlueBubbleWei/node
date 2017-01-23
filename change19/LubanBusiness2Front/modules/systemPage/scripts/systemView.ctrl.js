@@ -68,7 +68,6 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                     }else{
                         dailymax+=$scope.productList[i].groupList[j].productId+',';
                     }
-
                 }
             }
             pids=base64Encode(pids);
@@ -84,16 +83,17 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                 //每日最高登陆人数
                 $scope.dailymaxList=res.data;
 
-                commonService.countdowning().then(function(res,$ccompile){
+                commonService.countdowning().then(function(res0,$ccompile){
                     //累计装机量
                     if(res.data.length!=0){
-                        $scope.downloadsnum=res.data;
-                        $scope.countInstalled=res.data;
+                        $scope.downloadsnum=res0.data;
+                        $scope.countInstalled=res0.data;
                     }
-                    commonService.countuser().then(function(res) {
+                    commonService.countuser().then(function(res1) {
                         //累计访问人数
-                        if(res.data.length!=0){
-                            $scope.usernum=res.data;
+                        if(res1.data.length!=0){
+                            $scope.usernum=res1.data;
+                            $scope.testusernum=res1.data;
                         }
                             //获取产品名称列表
                             //日均访问量拼接]
@@ -131,22 +131,27 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             //累计用户量拼接
                             for(var i=0;i<$scope.product.length;i++){
                                 for(var j=0;j<$scope.usernum.length;j++){
-                                    var user=0;
                                     var ans=0;
                                     if($scope.usernum[j].productId == $scope.product[i].productId){
+                                        var strad = "";
                                         for(var k=0;k<$scope.usernum[j].data.length;k++){
+                                            strad+="+"+$scope.usernum[j].data[k].inc;
                                             ans+=$scope.usernum[j].data[k].inc;
                                         }
                                         $scope.product[i].user=ans;
+                                        console.log(strad)
                                     }
                                 }
                                 if(!$scope.product[i].user) {
                                     $scope.product[i].user = 0;
                                 }
+                                console.log($scope.product[i].user+'$scope.product[i].user')
                             }
+
                             //累计装机量拼接
                             for(var i=0;i<$scope.product.length;i++){
                                 for(var j=0;j<$scope.downloadsnum.length;j++){
+                                    var ans=0;
                                     if($scope.downloadsnum[j].productId == $scope.product[i].productId){
                                         for(var k=0;k<$scope.downloadsnum[j].data.length;k++){
                                             ans+=$scope.downloadsnum[j].data[k].inc;
@@ -187,6 +192,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     }
                                 }
                             }
+
                         //将数据划分为psd一组
                         for (var i=0;i<$scope.product.length;i++){
                             for(var j=0;j<$scope.psdList.length;j++){
@@ -214,6 +220,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                 }
                             }
                         }
+
                         function countotal(catatgory) {
                             var sum1=0;
                             var sum2=0;
@@ -310,14 +317,17 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         }
                         function completeDate(str) {
                             var currentDay=new Date();
-                            currentDay=changeDate(currentDay);
                             currentDay=Date.parse(currentDay);
                             var joinDate=[];
                             var countGroup=[];   //总体数据
+                            debugger;
                             for(var i=0;i<str.length;i++){
+                                if(i==0){
+                                    console.log(str[0].data)
+                                }
                                 var origin=1262275200000;//2010/01/01
                                 var countlist=[];
-                                var Bedate,date,countDownloads,sumInstall=0;
+                                var date,sumInstall=0;
                                 var productData = str[i].data;
                                 var compare=productData[0].date;
                                 var groupId = getGroupIDByProductId(str[i].productId);
@@ -326,6 +336,15 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     groupData = new Object();
                                     countGroup[groupId] = groupData;
                                 }
+                                if(i==0){
+                                    var countddd=0,lr='';
+                                    for(var j = 0;j < productData.length ; j++) {
+                                        countddd+= productData[j].inc
+                                        lr+='+'+productData[j].inc;
+                                    }
+                                    console.log(countddd+'长度lr'+lr);
+                                }
+
                                 while( origin < compare){//补全以前日期
                                     if(groupData[origin] == null){
                                         groupData[origin] = 0;
@@ -355,8 +374,18 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                             countlist.push({date: date, countDownloads: sumInstall});
                                         }
                                     }
+
                                 }
                                 var finalDay = productData[productData.length-1].date;
+                                var finalInc = productData[productData.length-1].inc;
+                                sumInstall = sumInstall+finalInc
+                                countlist.push({date: finalDay, countDownloads:sumInstall });
+                                if(groupData[finalDay] == null){
+                                    groupData[finalDay] = sumInstall;
+                                }else{
+                                    groupData[finalDay] += sumInstall;
+                                }
+                                finalDay = finalDay+86400000;
                                 while(finalDay <= currentDay){//补全末尾日期
                                     // date = change2Stdtime(finalDay);
                                     productData.push({date: finalDay, inc: 0});
@@ -365,7 +394,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     }else{
                                         groupData[finalDay] += sumInstall;
                                     }
-                                    countlist.push({date: finalDay, countDownloads: sumInstall});
+                                    countlist.push({date: finalDay, countDownloads: groupData[finalDay]});
                                     finalDay += 86400000;
                                 }
                                 countlist.push({productId:str[i].productId});
@@ -397,14 +426,15 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             }
                             return arrlist;
                         }
-                        $scope.allUsers=$scope.product;
-                        $scope.allDownloads=$scope.product;
-                        $scope.allUsers=completeData_Id($scope.usernum,$scope.allUsers);
-                        $scope.allDownloads=completeData_Id($scope.usernum,$scope.allDownloads);
+                        var allUsers=$scope.product;
+                        $scope.allUsers=completeData_Id($scope.testusernum,allUsers);
+                        var allDownloads=$scope.product;
+                        // $scope.allDownloads=completeData_Id($scope.downloadsnum,allDownloads);
+
                         userlist=completeDate( $scope.allUsers);
                         //加载图表
                         chang2Ctime(userlist);
-                        downloadslist= completeDate($scope.allDownloads);
+                        // downloadslist= completeDate($scope.allDownloads);
                         //第一次加载一月前的数据
                         (function () {
                             var today=new Date();

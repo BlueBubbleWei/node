@@ -45,7 +45,7 @@
 .userAnalysis .banhuitong{background-color: #f3cd67;}
 .userAnalysis #mobliePad{background-color: #7159ED;}
 .userAnalysis #checkuser{width: 100%;height: 500px;margin-bottom: 40px;}
-.userAnalysis #userChart{width: 100%;height: 380px;margin-bottom: 40px;}
+.userAnalysis #userChart{width: 100%;height: 285px;margin-bottom: 40px;}
 .userAnalysis div.panel{
     border: none;margin-bottom: 0;width: 100%;overflow: scroll;
 }
