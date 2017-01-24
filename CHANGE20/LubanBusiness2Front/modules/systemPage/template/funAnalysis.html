@@ -1,0 +1,118 @@
+<style>
+    .function-analysis table tr th,.function-analysis table tr td{
+        height: 50px;
+        width: 75px;
+        font-size: 14px;
+    }
+    .function-analysis .select-time {
+        float: right;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 26px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        background: #000;
+        color: #fff;
+        margin-right: 5px;
+        font-size: 14px;
+    }
+    .function-analysis .modal-box {
+        position: fixed;
+        z-index: 100;
+        top: 50%;
+        left: 50%;
+        /* right: 0; */
+        /* bottom: 0; */
+        z-index: 10;
+        background: #fff;
+        width: 900px;
+        margin-left: -450px;
+        margin-top: -350px;
+    }
+    .function-analysis .overlay {
+        position: fixed;
+        opacity: 0.5;
+        background: #000;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .function-analysis .close {
+        z-index: 99993;
+        position: absolute;
+        top: 0;
+        right: 18px;
+        width: 20px;
+        height: 49px;
+        cursor: pointer;
+        background: transparent url(../common/images/icon-close.png) no-repeat 0 29px;
+        opacity: 1;
+        filter: alpha(opacity=100);
+        border-radius: 0 0 0 4px;
+    }
+    .function-analysis .click-right {
+        margin-top: 65px;
+        margin-bottom: 100px;
+    }
+</style>
+<script src="../common/libs/echarts.js"></script>
+<!--功能分析-->
+<div class="question-analysis function-analysis">
+    <div class="analysis-main">
+        <!--图形展示-->
+        <div class="question-shapeShow function-shapeShow">
+            <!--analysis-Nav-->
+            <div class="analysis-Nav">
+                <ul class="analysis-Nav-list overflow">
+                    <li ng-repeat="item in productNav track by $index"><p ng-click="changeProductId(item)" >{{item.productName}}</p><span class="line-style"></span></li>
+                </ul>
+            </div>
+            <div class="funList">
+                <span class="bombBoxIcon bombBoxIcon-5"></span>
+                功能列表 
+            </div>
+            <!--analysis-canvas-->
+            <div class="fun-table">
+                <table class="fixed-table" border="0" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <tr>
+                        <th>功能名称<span class="fun" ></span></th>
+                        <th>使用次数<span class="fun-sort sort-left" ng-click="asByTimes()"></span><span class="fun-sort sort-right" ng-click="deByTimes()"></span></th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <table border="0" cellspacing="0" cellpadding="0" class="funTable">
+                    <tbody style="height:424px;overflow:auto">
+                    <tr ng-repeat="item in functionList track by $index">
+                        <td ng-click="functionDetail(item.functionName)" ng-bind="item.functionName"></td>
+                        <td ng-click="functionDetail(item.functionName)" ng-bind="item.useTimes"></td>
+                        <td>
+                            <span class="toTop" ng-click="setTop(item.functionName)" ng-show="item.status==1">置顶</span>
+                            <span class="toBottom"  ng-click="setBottom(item.functionName)" ng-show="item.status==1">置底</span>
+                            <span class="" ng-click="cancelTop(item.functionName)" ng-show="item.status==2">取消置顶</span>
+                            <span class="" ng-click="cancelBottom(item.functionName)" ng-show="item.status==0">取消置底</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-box" ng-show="flag.detailShow">
+            <a href="" class="close" ng-click="closeFunctionDetail()"></a>
+            <div class="click-right">
+                <p class="select-time" ng-click="diffSection('all')">全部</p>
+                <p class="select-time"  ng-click="diffSection('lastThreeYear')">近三年</p>
+                <p class="select-time"  ng-click="diffSection('lastYear')">近一年</p>
+                <p class="select-time"  ng-click="diffSection('lastSeason')">近一季</p>
+                <p class="select-time" ng-click="diffSection('lastMonth')">近一月</p>
+            </div>
+            <div>
+                <div id="waveChart" class="wavechart" style="width:60%px;height:500px"></div>
+            </div>
+        </div>
+        <div class="overlay" ng-show="flag.detailShow"></div>
+    </div>
+</div>
+

@@ -1,0 +1,211 @@
+*{
+	padding:0;margin:0;
+}
+html,body{
+	width:100%;
+	height:100%;
+}
+h1,h2,h3,h4,h5,h6,div,p,span,a,b,em,strong,label,input,button,select,textarea{
+	font-family:"microsoft yahei";color:#363636;
+}
+/*清除默认边框*/
+input,button,select,textarea{
+	outline:none;
+}
+/*body加背景*/
+body{
+	background-image:url("../img/login-bj.png") ;background-size:100% 100%;
+}
+
+
+/*manageSystem-login(管理系统登录界面)*/
+.manageSystem-login{
+	width:100%;height:96%;position:relative;z-index: 50;
+}
+/*login-logo*/
+.manageSystem-login .login-logo>img{
+	margin:30px 0 0 30px;display:inline-block;
+}
+/*login-window(登录窗口)*/
+.manageSystem-login .login-window{
+	width:480px;height:460px;background:#fff;position:absolute;left:50%;top:50%;margin-left:-240px;margin-top:-230px;border-radius:5px;text-align:left;
+}
+/*login-window-main（登录窗口内容区域）*/
+.login-window .login-window-main{
+	margin:40px;width:400px;height:380px;
+}
+/*登录页面标题*/
+.login-window .login-window-main >p{
+	font-size:24px;margin-bottom:40px;
+}
+/*login-userInfo*/
+.login-userInfo{
+	
+}
+.login-userInfo div{
+	width:100%;height:48px;text-align:left;line-height:50px;border:1px solid #ddd;margin-bottom:20px;
+}
+.login-userInfo .username:hover{
+	border-color:#aa1019;
+}
+.login-userInfo div.username:nth-child(2){
+	margin-bottom:0px !important;
+}
+.login-userInfo div span{
+	width:24px;height:24px;float:left;margin:5px 14px 0;display:inline-block;
+}
+.login-userInfo div input{
+	border:none;
+	border-left:1px solid #ddd;line-height:24px;width:324px;float: left;margin-top: 12px;outline:none;padding:0 10px;font-size:16px;
+}
+/*.login-userInfo div:nth-child(2){
+	margin:0;
+}*/
+.login-userInfo div.loginMsg{
+	border:0;margin:0;padding-left:10px;width:390px;display:none;
+}
+.login-userInfo div.loginMsg p{
+	font-size:12px;
+	color:#FDC37F;
+}
+.login-system-manage{
+	margin-top:20px;position:relative;
+}
+.login-system-manage p~.icon-trigon{
+	width: 0px;
+	height: 0px;
+	border: 3px solid transparent;
+	border-top: 6px solid black;
+	position: absolute;
+	right: 10px;
+	top: 20px;
+}
+.login-system-manage:hover{
+	border-color:#AA1019;
+}
+.login-system-manage>p{
+	border-left:1px solid #ddd;line-height:24px !important;float:left;margin:12px 0 0;padding:0 10px
+}
+/*登录按钮*/
+.login-window .login-window-main  .login-btns{
+	border:0;background:#aa1019;text-align:center;width:100%;height:50px;color:#fff;font-size:24px;line-height:50px;position:relative;
+}
+.login-window .login-window-main  .login-btns{
+	cursor:pointer;
+}
+.login-window .login-window-main  .login-btns span{
+	color:#fff;
+}
+.login-window .login-window-main  .login-btns .login-enter:hover{
+	background-color:#8B0D15;
+	-moz-transition: background-color 0.3s linear; /* Firefox 4 */
+	-webkit-transition: background-color 0.3s linear; /* Safari 和 Chrome */
+	-o-transition: background-color 0.3s linear; /* Opera */
+	transition:background-color 0.3s linear;
+	
+}
+/*.login-window .login-window-main  .login-btns:active{
+	background:#8B0D15;
+}*/
+.login-window .login-window-main .login-btns span:nth-child(1){
+	margin-left:-26px;
+}
+.login-window .login-window-main .login-btns span:nth-child(2){
+	color:#fff;position:absolute;top:-1px;left:205px;
+}
+.login-window .login-window-main .login-btns .rember-checkbox {
+	text-align:left;height:30px;position:relative;
+}
+.login-window .login-window-main .login-btns .rember-checkbox p{
+	font-size:12px;color:#999;height:30px;text-align:left;display:inline-block;line-height:20px;position:absolute;left:29px;top:13px;
+}
+.userAndPassMsg{
+	display:none;
+}
+.listSystem{
+	width:calc(100% - 40px);border:none !important;z-index:5;background:#fff !important;height:auto !important;position:absolute;left:-1px;top:50px;display:none;border:1px solid #ddd !important;
+}
+.listSystem>p{
+	line-height:40px;padding-left:64px;
+}
+.listSystem>p:hover{
+	background:#DCDCDC;
+}
+/*复选框*/
+.check-box{
+	width:20px;height:20px;border:1px solid #ddd;display:inline-block;text-align:left;
+}
+.login-checked{
+	width: 12px;
+    height: 6px;
+    margin-left: 3px;
+    margin-top: 4px;
+    border-left: 2px solid #AA1019;
+    border-bottom: 2px solid #AA1019;
+-webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+/*公司地址和联系信息*/
+.login-address{
+	text-align:center;z-index: 50;
+}
+.login-address span{
+	color:#fff;font-size:14px;margin-right:20px;  letter-spacing:2px;
+}
+.movingLine-1-1{
+	background-size: 100% 100%;position: fixed;bottom: 0;left: 0;width: 300%;height: 410px;opacity: 1;
+
+}
+@keyframes line-1-1Animation{
+	0% {left:0%;opacity: 1;}
+    16.67% {left:-100%;opacity: 1;}
+	33.33% {left:-200%;opacity: 1;}
+	50% {left:-300%;opacity: 1;}
+	66.67% {left:-400%;opacity: 0;}
+     	70% {left:100%;opacity: 0;}
+	83.33% {left:100%;opacity: 1;}
+	100% {left:0%;opacity: 1;}
+}
+.movingLine-1-2{
+	background-size: 100% 100%;position: fixed;bottom: 0;left: 300%;width: 300%;height: 410px;opacity: 0;
+
+}
+@keyframes line-1-2Animation{
+	0% {left:300%;opacity: 0;}
+	16.67% {left:200%;opacity: 0;}
+	33.33% {left:100%;opacity: 1;}
+	50% {left:0%;opacity: 1;}
+	66.67% {left:-100%;opacity: 1;}
+	83.33% {left:-200%;opacity: 1;}
+	100% {left:-300%;opacity: 1;}
+}
+.movingLine-2-1{
+	background-size: 100% 100%;position: fixed;bottom: 0;left: -200%;width: 300%;height: 410px;opacity: 1;
+
+}
+@keyframes line-2-1Animation{
+	0% {left:-200%;opacity: 1;}
+	16.67% {left:-100%;opacity: 1;}
+	33.33% {left:0%;opacity: 1;}
+	50% {left:100%;opacity: 1;}
+	66.67% {left:200%;opacity: 0;}
+	70% {left:-300%;opacity: 0;}
+	83.33% {left:-300%;opacity: 1;}
+	100% {left:-200%;opacity: 1;}
+}
+.movingLine-2-2{
+	background-size: 100% 100%;position: fixed;bottom: 0;left: -300%;width: 300%;height: 410px;opacity: 0;
+
+}
+@keyframes line-2-2Animation{
+	0% {left:-500%;opacity: 0;}
+	16.67% {left:-400%;opacity: 0;}
+	33.33% {left:-300%;opacity: 1;}
+	50% {left:-200%;opacity: 1;}
+	66.67% {left:-100%;opacity: 1;}
+	83.33% {left:0%;opacity: 1;}
+	100% {left:100%;opacity: 1;}
+}

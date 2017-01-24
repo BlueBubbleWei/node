@@ -1,0 +1,35 @@
+<script src="../common/libs/echarts.js"></script>
+<div class="userAnalysis">
+    <div class="onlinesituation"><img class="onlineIcon" src="systemPage/images/onlineIcon.png" alt=""> <h1>在线情况</h1></div>
+    <div class="user">
+        <div id="userChart" class="wavechart"></div>
+        <spread-button class="chartIcon" >
+            <div class="showButton systemTrend-top"><div class="flowIMg"><img id="ImgChange" src="systemPage/images/close.png" alt=""></div></div>
+            <div class="userGeneral panel panel-default systemList" id="show-Table">
+                <table class="table table-striped" id="userGeneral">
+                </table>
+            </div>
+        </spread-button>
+
+    </div>
+    <div class="usercheck">
+        <div class="onlinesituation"> <img class="onlineIcon" src="systemPage/images/usergeneral.png" alt=""> <h1>用户概况</h1></div>
+        <div class="chart-click">
+            <click-left class="click-left">
+                <!--switch class adding this one-->
+                <p class="count-number switch-left-down" id="usercount">新增用户数</p>
+                <p class="count-number"  id="downloadingcount">每日登录数</p>
+            </click-left>
+            <div class="click-right">
+                <p class="select-time" ng-click="changShowTime(4)">全部</p>
+                <p class="select-time"  ng-click="changShowTime(3)">近三年</p>
+                <p class="select-time"  ng-click="changShowTime(2)">近一年</p>
+                <p class="select-time"  ng-click="changShowTime(1)">近一季</p>
+                <p class="select-time" ng-click="changShowTime(0)">近一月</p>
+            </div>
+        </div>
+        <div id="checkuser"></div>
+
+    </div>
+
+</div>

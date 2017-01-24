@@ -133,19 +133,15 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                 for(var j=0;j<$scope.usernum.length;j++){
                                     var ans=0;
                                     if($scope.usernum[j].productId == $scope.product[i].productId){
-                                        var strad = "";
                                         for(var k=0;k<$scope.usernum[j].data.length;k++){
-                                            strad+="+"+$scope.usernum[j].data[k].inc;
                                             ans+=$scope.usernum[j].data[k].inc;
                                         }
                                         $scope.product[i].user=ans;
-                                        console.log(strad)
                                     }
                                 }
                                 if(!$scope.product[i].user) {
                                     $scope.product[i].user = 0;
                                 }
-                                console.log($scope.product[i].user+'$scope.product[i].user')
                             }
 
                             //累计装机量拼接
@@ -279,11 +275,11 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                         var template=angular.element(html2);
                         var templateHtml = $compile(template)($scope);
                         angular.element(document.getElementById('addtbody')).append(templateHtml);
-                        $("th").each(function(){
+                       /* $("th").each(function(){
                             if($(this).text()==0){
                                 $(this).text('--')
                             };
-                        });
+                        });*/
                         $("td").each(function(){
                             if($(this).text()==0){
                                 $(this).text('--')
@@ -320,11 +316,7 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             currentDay=Date.parse(currentDay);
                             var joinDate=[];
                             var countGroup=[];   //总体数据
-                            debugger;
                             for(var i=0;i<str.length;i++){
-                                if(i==0){
-                                    console.log(str[0].data)
-                                }
                                 var origin=1262275200000;//2010/01/01
                                 var countlist=[];
                                 var date,sumInstall=0;
@@ -336,15 +328,6 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                                     groupData = new Object();
                                     countGroup[groupId] = groupData;
                                 }
-                                if(i==0){
-                                    var countddd=0,lr='';
-                                    for(var j = 0;j < productData.length ; j++) {
-                                        countddd+= productData[j].inc
-                                        lr+='+'+productData[j].inc;
-                                    }
-                                    console.log(countddd+'长度lr'+lr);
-                                }
-
                                 while( origin < compare){//补全以前日期
                                     if(groupData[origin] == null){
                                         groupData[origin] = 0;
@@ -414,27 +397,25 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             return joinDate;
                         }
                         function completeData_Id(arr,arrlist) {
-                            for(var i=0;i<arrlist.length;i++){
+                            var arrlistData=[];
+                            arrlistData=arrlist;
+                            for(var i=0;i<arrlistData.length;i++){
                                 for(var j=0;j<arr.length;j++){
-                                    if(arrlist[i].productId==arr[j].productId){
-                                        arrlist[i].data=arr[j].data;
+                                    if(arrlistData[i].productId==arr[j].productId){
+                                        arrlistData[i].data=arr[j].data;
                                     }
                                 }
-                                if(!arrlist[i].data){
-                                    arrlist[i].data=[{'date':1262275200000,'inc':0}]
+                                if(!arrlistData[i].data){
+                                    arrlistData[i].data=[{'date':1262275200000,'inc':0}]
                                 }
                             }
-                            return arrlist;
+                            return arrlistData;
                         }
-                        var allUsers=$scope.product;
-                        $scope.allUsers=completeData_Id($scope.testusernum,allUsers);
-                        var allDownloads=$scope.product;
-                        // $scope.allDownloads=completeData_Id($scope.downloadsnum,allDownloads);
+                        var allUsers=completeData_Id($scope.testusernum,$scope.product);
 
-                        userlist=completeDate( $scope.allUsers);
+                        userlist=completeDate(allUsers);
                         //加载图表
                         chang2Ctime(userlist);
-                        // downloadslist= completeDate($scope.allDownloads);
                         //第一次加载一月前的数据
                         (function () {
                             var today=new Date();
@@ -544,6 +525,8 @@ app.controller('systemViewController', function ($scope,$compile,$location,$time
                             })();
                         });
                         $("#downloadingcount").click(function(){//累计装机量
+                            var allDownloads=completeData_Id($scope.downloadsnum,$scope.product);
+                            downloadslist= completeDate(allDownloads);
                             flag=0;
                             $(this).addClass('switch-left-down').removeClass('switch-left-up');
                             $(this).siblings().removeClass('switch-left-down').addClass('switch-left-up');

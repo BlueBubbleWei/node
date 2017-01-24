@@ -1,0 +1,137 @@
+.function-analysis table tr th,.function-analysis table tr td{
+    height: 50px;
+    width: 75px;
+    font-size: 14px;
+}
+.function-analysis .function-shapeShow{
+    padding-bottom: 60px;
+}
+.function-analysis .analysis-Nav-list li p{
+    font-size: 16px;
+}
+.function-analysis .funList{
+    width: 100%;
+    height: 90px;
+    line-height: 90px;
+    padding-left: 60px;
+    font-size: 18px;
+    margin-top: 60px;
+}
+.function-analysis .funList span{
+    float: left;
+    margin-right: 10px;
+    margin-top: 37px;
+}
+.function-analysis .fun-table thead,  .function-analysis .fun-table tbody{
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+}
+.function-analysis .fixed-table tr th{
+    text-align: left;
+}
+.function-analysis .fun-table thead, .function-analysis .fun-table tbody tr:nth-child(even){
+    background: rgb(245, 245, 245);
+}
+.function-analysis .fun-table tbody tr:nth-child(odd){
+    background-color: #fdfdfd;
+}
+.function-analysis table{
+    width:100%;
+}
+.function-analysis table tr td:nth-child(1),.function-analysis .fixed-table tr th:nth-child(1){
+    width:34%;
+    padding-left: 60px;
+}
+.function-analysis table tr td:nth-child(2),.function-analysis .fixed-table tr th:nth-child(2){
+    width:32%;
+    padding-left: 150px;
+}
+.function-analysis table tr td:nth-child(3),.function-analysis .fixed-table tr th:nth-child(3){
+    width:34%;
+    padding-left: 240px;
+}
+.function-analysis .fixed-table .fun-sort{
+    width: 4px;
+    height: 12px;
+    display: inline-block;
+    background: url(http://lubanbusiness2.com.cn:63342/LubanBusiness2Front/common/styles/../images/icon-sort.png) no-repeat 0 0;cursor:pointer;
+}
+.function-analysis .fixed-table .fun{
+    width: 14px;
+    height:14px;
+    margin-left: 5px;
+    display: inline-block;
+    background: url(http://lubanbusiness2.com.cn:63342/LubanBusiness2Front/common/styles/../images/fun.png) no-repeat 0 0;
+    cursor: pointer;
+}
+.function-analysis .fixed-table .sort-left{
+    margin-left: 5px;
+}
+.function-analysis .fixed-table .fun-sort.sort-right{
+    background: url(http://lubanbusiness2.com.cn:63342/LubanBusiness2Front/common/styles/../images/icon-sort.png) no-repeat -10px 0;
+    position: relative;
+    left: 3px;
+}
+.function-analysis .fixed-table .fun-sort.sort-left:hover{
+    background-position-y: -12px;
+}
+.function-analysis .fixed-table .fun-sort.sort-right:hover{
+    background-position-y: -24px;
+}
+.function-analysis .toTop{
+    cursor: pointer;
+}
+.function-analysis .toFoot{
+    position: relative;
+    left: 40px;
+    top:0;
+    cursor: pointer;
+}
+#alert{
+    background-color: rgba(0,0,0, 0.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height:100%;
+    z-index: 100;
+}
+#alert .container{
+    width: 70%;
+    height: 380px;
+    position: fixed;
+    left: 25%;
+    top: 25%;
+    background-color: rgba(255, 255, 255, 1);
+}
+#alert .container .alertTop{
+    text-align: center;
+    width: 100%;
+    height: 47px;
+    line-height: 47px;
+    font-size: 20px;
+    background-color: rgba(228, 228, 228, 1);
+}
+#alert .alertTop>p{
+    float: left;
+}
+#alert .alertTop .closeIcon{
+    float: right;
+    margin-right: -10px;
+}
+#alert .close-x{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-right: 2px solid #1A1A1A;
+    transform: rotate(45deg);
+    margin-right: -8px;
+}
+#alert .close-y{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-right: 2px solid #1A1A1A;
+    transform: rotate(135deg);
+}

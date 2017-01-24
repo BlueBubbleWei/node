@@ -108,7 +108,6 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             httpUrl:"analysis/online/user",
             success:function(data){
                 $scope.groupProductWithinOnedayData= data.online;
-                console.log($scope.groupProductWithinOnedayData);
             }
         });
         getWithinOnedayAllDatas();
@@ -125,7 +124,6 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             httpUrl:"analysis/online/user_current",
             success:function(data){
                 $scope.groupProductNowOnlineData= data.online;
-                console.log($scope.groupProductNowOnlineData)
             }
         });
     }
@@ -500,10 +498,8 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
             var thisDate = new Date(startTime);
             xAxisData.push(change2Stdtime(thisDate))
         }
-        console.log(xAxisData.length);
         return xAxisData;
     }
-
     /**
      *
      * @param showtype true 新增 false 登录
@@ -813,8 +809,6 @@ app.controller('userAnalysisController', function ($scope,$compile,$location,$ti
         getNowOnlineUsers();
         getOnlieUsersDatas();
         appendSpySeries();
-        console.log("在线用户请求")
-
     }, 60*1000);
 
 });

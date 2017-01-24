@@ -1,6 +1,6 @@
 .system-view  .systemUsingSituation{width: 100%;background-color: #fff;height: 77px;}
 .system-view  .systemUsingSituation>div{
-    width:25%;height: 100%;float: left;margin-left:0; padding: 30px 0 30px 60px;
+    width:25%;height: 100%;float: left;margin-left:0; padding: 30px 0 30px 61px;
 }
 .system-view  .systemUsingSituation>div>img{
     float: left;margin-left:0;width: 18px;height: 18px;
@@ -49,13 +49,7 @@
 .system-view table.systemGeneral>tbody>tr>td{
     height: 45px;text-align: right;font-size: 14px;line-height: 45px;border: none;padding-right: 110px;
 }
-/*
-.system-view table.systemGeneral>tbody>:first-child{background-color: #f5f5f5;}
-.system-view table.systemGeneral>tbody>:first-child:hover{
-    background-color: #e5e5e5;
-    transition:background-color 0.5s;
-    cursor: pointer;
-}*/
+
 .system-view table.systemGeneral>tbody>tr{
     height: 45px;text-align: right;font-size: 14px;line-height: 45px;border: none;padding-right: 110px;
 }

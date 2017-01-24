@@ -1,0 +1,47 @@
+<script src="../common/libs/echarts.js"></script>
+<div class="system-view">
+    <div class="systemUsingSituation">
+        <div><img src="systemPage/images/systemgeneral.png"><p>系统使用情况</p></div>
+    </div>
+    <div class="panel panel-default systemList">
+        <!-- Table -->
+        <table class="table table-striped systemGeneral">
+            <thead id="addthead">
+            <tr>
+                <th></th><th>累计用户</th><th>累计装机量</th><th>日均登陆人数</th><th>单日在线最高人数</th>
+            </tr>
+            </thead>
+            <tbody id="addtbody">
+            </tbody>
+        </table>
+    </div>
+    <div class="systemTrend">
+        <div class="systemTrend-top">
+        </div>
+        <div class="system-titl">
+            <img class="titl-img" src="systemPage/images/titl-img.png" alt=""><p class="titl-word">系统整体趋势</p>
+        </div>
+        <div class="systemChart">
+            <div class="chart-click">
+                <div class="click-left">
+                    <p class="count-number switch-left-down" id="usercount">累计用户</p>
+                    <p class="count-number"  id="downloadingcount">累计装机量</p>
+                </div>
+                <div class="click-right">
+                    <p class="select-time" ng-click="all()">全部</p>
+                    <p class="select-time"  ng-click="Th3Years()">近三年</p>
+                    <p class="select-time"  ng-click="year()">近一年</p>
+                    <p class="select-time"  ng-click="season()">近一季</p>
+                    <p class="select-time" ng-click="month()">近一月</p>
+                </div>
+            </div>
+            <div id="waveChart" class="wavechart"></div>
+            <div class="chartIcon">
+
+                <div class="leftCheck" id="rightIcon">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
